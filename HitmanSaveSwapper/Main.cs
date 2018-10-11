@@ -10,12 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HitmanSaveSwapper {
-    public partial class Form1 : Form {
+namespace GameSaveSwapper {
+    public partial class Main : Form {
         static string APPDATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); // AppData folder
-        static string SAVEPATH = Path.Combine(APPDATA_PATH, "HitmanSaveSwapper");
+        static string SAVEPATH = Path.Combine(APPDATA_PATH, "GameSaveSwapper");
         private static DirectoryInfo HITMANPATH = new DirectoryInfo(@"D:\Jackz\Documents\_temp\hitmanshit\remote");
-        public Form1() {
+
+        private Setup setup = new Setup();
+
+        public Main() {
             InitializeComponent();
             if (Properties.Settings.Default.profilenum <= 0) Properties.Settings.Default.profilenum = 1;
 
@@ -30,24 +33,17 @@ namespace HitmanSaveSwapper {
             textBox4.TextChanged += new EventHandler(textBox_Changed);
         }
 
-        /* TODO:
-         * On (EventHandler) textbox change -> save
-         * On Load -> save
-         * Finish hitman -> save
-         * Copy from save -> hitman 
-         */
+        
 
-        private void Form1_Load(object sender, EventArgs e) {
-            if (!Properties.Settings.Default.setup)
-            {
-                DialogResult result = MessageBox.Show("Do you want to copy your save data to %appdata%\\HitmanSaveSwapper?",
-                    "Set up Swapper?", MessageBoxButtons.YesNo);
-                if (DialogResult.Yes == result) {
-
-                } else {
-                    Application.Exit();
-                }
+        private void Form1_Shown(object sender, EventArgs e) {
+            if (!Properties.Settings.Default.firstSetup) {
+                setup.Show();
+                this.Hide();
+                return;
             }
+        }
+        private void Form1_Load(object sender, EventArgs e) {
+            
 
             Control[] ArrControls = groupBox1.Controls.Find("saveProfile" + Properties.Settings.Default.profilenum, true);
             Debug.Print("saveProfile" + Properties.Settings.Default.profilenum);
@@ -61,9 +57,9 @@ namespace HitmanSaveSwapper {
             RadioButton rb = (RadioButton)ArrControls[0];
             rb.Checked = true;
             FormatTexts();
-            for (int i = 0; i < 4; i++) {
+            /*for (int i = 0; i < 4; i++) {
                 Debug.WriteLine(Properties.Settings.Default["save" + ++i]);
-            }
+            }*/
 
             
         }
@@ -74,7 +70,7 @@ namespace HitmanSaveSwapper {
             int buttonid = (int) int.Parse(radioButton.Name.Replace("saveProfile", ""));
             TextBox tb = (TextBox) groupBox1.Controls["TextBox" + buttonid];
             Properties.Settings.Default.profilenum = buttonid;
-            SwapToID(buttonid);
+            //SwapToID(buttonid);
         }
 
         private void textBox_Changed(object sender, EventArgs e) {
@@ -85,9 +81,9 @@ namespace HitmanSaveSwapper {
             TextBox[] texts = groupBox1.Controls.OfType<TextBox>().ToArray();
             for (int i = 0; i < 4; i++) {
                 texts[i].BackColor = (texts[i].Text == "") ? Color.White : SystemColors.Control;
-                var settings = Properties.Settings.Default["save" + (++i)];
+                /*var settings = Properties.Settings.Default["save" + (++i)];
                 if(settings != null) settings = texts[i].Text;
-
+                */
             }
 
             
@@ -193,6 +189,19 @@ namespace HitmanSaveSwapper {
 
             }
             System.IO.File.WriteAllText(Path.Combine(HITMANPATH.FullName,"swapper.txt"), id.ToString());
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e) {
+
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e) {
+
+        }
+
+        private void setupToolStripMenuItem_Click(object sender, EventArgs e) {
+            setup.Show();
+            this.Hide();
         }
     }
 }

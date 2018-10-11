@@ -1,5 +1,5 @@
-﻿namespace HitmanSaveSwapper {
-    partial class Form1 {
+﻿namespace GameSaveSwapper {
+    partial class Main {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -32,7 +32,11 @@
             this.saveProfile3 = new System.Windows.Forms.RadioButton();
             this.saveProfile4 = new System.Windows.Forms.RadioButton();
             this.saveProfile2 = new System.Windows.Forms.RadioButton();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // saveProfile1
@@ -58,11 +62,12 @@
             this.groupBox1.Controls.Add(this.saveProfile2);
             this.groupBox1.Controls.Add(this.saveProfile1);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox1.Location = new System.Drawing.Point(3, 1);
+            this.groupBox1.Location = new System.Drawing.Point(12, 46);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(354, 223);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // textBox4
             // 
@@ -143,19 +148,48 @@
             this.saveProfile2.Tag = "2";
             this.saveProfile2.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.setupToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(777, 24);
+            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // setupToolStripMenuItem
+            // 
+            this.setupToolStripMenuItem.Name = "setupToolStripMenuItem";
+            this.setupToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.setupToolStripMenuItem.Text = "Setup";
+            this.setupToolStripMenuItem.Click += new System.EventHandler(this.setupToolStripMenuItem_Click);
+            // 
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(369, 227);
+            this.ClientSize = new System.Drawing.Size(777, 392);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
-            this.Text = "HitmanSaveSwapper";
+            this.Controls.Add(this.menuStrip1);
+            this.Name = "Main";
+            this.Text = "GameSaveSwapper";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -170,6 +204,9 @@
         private System.Windows.Forms.RadioButton saveProfile3;
         private System.Windows.Forms.RadioButton saveProfile4;
         private System.Windows.Forms.RadioButton saveProfile2;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setupToolStripMenuItem;
     }
 }
 

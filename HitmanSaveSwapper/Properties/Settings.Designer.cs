@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HitmanSaveSwapper.Properties {
+namespace GameSaveSwapper.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -38,60 +38,12 @@ namespace HitmanSaveSwapper.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool setup {
+        public bool firstSetup {
             get {
-                return ((bool)(this["setup"]));
+                return ((bool)(this["firstSetup"]));
             }
             set {
-                this["setup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string save1 {
-            get {
-                return ((string)(this["save1"]));
-            }
-            set {
-                this["save1"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string save2 {
-            get {
-                return ((string)(this["save2"]));
-            }
-            set {
-                this["save2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string save3 {
-            get {
-                return ((string)(this["save3"]));
-            }
-            set {
-                this["save3"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string save4 {
-            get {
-                return ((string)(this["save4"]));
-            }
-            set {
-                this["save4"] = value;
+                this["firstSetup"] = value;
             }
         }
     }
