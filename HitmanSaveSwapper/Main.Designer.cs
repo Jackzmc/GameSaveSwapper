@@ -23,169 +23,249 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.saveProfile1 = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.saveProfile3 = new System.Windows.Forms.RadioButton();
-            this.saveProfile4 = new System.Windows.Forms.RadioButton();
-            this.saveProfile2 = new System.Windows.Forms.RadioButton();
+            this.components = new System.ComponentModel.Container();
+            this.label1 = new System.Windows.Forms.Label();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.GameName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SavePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.test = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.playToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.game_input = new System.Windows.Forms.TextBox();
+            this.game_path = new System.Windows.Forms.Button();
+            this.game_choose = new System.Windows.Forms.ComboBox();
+            this.game_add = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox1.SuspendLayout();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // saveProfile1
+            // label1
             // 
-            this.saveProfile1.AutoSize = true;
-            this.saveProfile1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveProfile1.Location = new System.Drawing.Point(19, 37);
-            this.saveProfile1.Name = "saveProfile1";
-            this.saveProfile1.Size = new System.Drawing.Size(14, 13);
-            this.saveProfile1.TabIndex = 0;
-            this.saveProfile1.TabStop = true;
-            this.saveProfile1.Tag = "1";
-            this.saveProfile1.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(298, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Here you can setup any type of game and its save directories.";
             // 
-            // groupBox1
+            // listView1
             // 
-            this.groupBox1.Controls.Add(this.textBox4);
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.saveProfile3);
-            this.groupBox1.Controls.Add(this.saveProfile4);
-            this.groupBox1.Controls.Add(this.saveProfile2);
-            this.groupBox1.Controls.Add(this.saveProfile1);
-            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox1.Location = new System.Drawing.Point(12, 46);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(354, 223);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.GameName,
+            this.SavePath,
+            this.test});
+            this.listView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.listView1.Location = new System.Drawing.Point(12, 25);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(747, 521);
+            this.listView1.TabIndex = 1;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
             // 
-            // textBox4
+            // GameName
             // 
-            this.textBox4.BackColor = System.Drawing.Color.White;
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(39, 146);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(181, 31);
-            this.textBox4.TabIndex = 7;
+            this.GameName.Text = "Name";
+            this.GameName.Width = 78;
             // 
-            // textBox3
+            // SavePath
             // 
-            this.textBox3.BackColor = System.Drawing.Color.White;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(39, 106);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(181, 31);
-            this.textBox3.TabIndex = 6;
-            this.textBox3.Text = "fag";
+            this.SavePath.Text = "Save Directory";
+            this.SavePath.Width = 200;
             // 
-            // textBox2
+            // test
             // 
-            this.textBox2.BackColor = System.Drawing.Color.White;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(39, 65);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(181, 31);
-            this.textBox2.TabIndex = 5;
-            this.textBox2.Text = "Eli";
+            this.test.Text = "test";
             // 
-            // textBox1
+            // contextMenuStrip1
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(39, 28);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(181, 31);
-            this.textBox1.TabIndex = 4;
-            this.textBox1.Text = "Heavenira";
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.renameToolStripMenuItem,
+            this.changePathToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.deleteToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 126);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
-            // saveProfile3
+            // playToolStripMenuItem
             // 
-            this.saveProfile3.AutoSize = true;
-            this.saveProfile3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveProfile3.Location = new System.Drawing.Point(19, 115);
-            this.saveProfile3.Name = "saveProfile3";
-            this.saveProfile3.Size = new System.Drawing.Size(14, 13);
-            this.saveProfile3.TabIndex = 3;
-            this.saveProfile3.TabStop = true;
-            this.saveProfile3.Tag = "3";
-            this.saveProfile3.UseVisualStyleBackColor = true;
+            this.playToolStripMenuItem.Name = "playToolStripMenuItem";
+            this.playToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playToolStripMenuItem.Text = "Play";
+            this.playToolStripMenuItem.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
             // 
-            // saveProfile4
+            // toolStripSeparator1
             // 
-            this.saveProfile4.AutoSize = true;
-            this.saveProfile4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveProfile4.Location = new System.Drawing.Point(19, 155);
-            this.saveProfile4.Name = "saveProfile4";
-            this.saveProfile4.Size = new System.Drawing.Size(14, 13);
-            this.saveProfile4.TabIndex = 2;
-            this.saveProfile4.TabStop = true;
-            this.saveProfile4.Tag = "4";
-            this.saveProfile4.UseVisualStyleBackColor = true;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
             // 
-            // saveProfile2
+            // renameToolStripMenuItem
             // 
-            this.saveProfile2.AutoSize = true;
-            this.saveProfile2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveProfile2.Location = new System.Drawing.Point(19, 74);
-            this.saveProfile2.Name = "saveProfile2";
-            this.saveProfile2.Size = new System.Drawing.Size(14, 13);
-            this.saveProfile2.TabIndex = 1;
-            this.saveProfile2.TabStop = true;
-            this.saveProfile2.Tag = "2";
-            this.saveProfile2.UseVisualStyleBackColor = true;
+            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            this.renameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.renameToolStripMenuItem.Text = "Rename";
+            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+            // 
+            // changePathToolStripMenuItem
+            // 
+            this.changePathToolStripMenuItem.Name = "changePathToolStripMenuItem";
+            this.changePathToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changePathToolStripMenuItem.Text = "Change Path";
+            this.changePathToolStripMenuItem.Click += new System.EventHandler(this.changePathToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // game_input
+            // 
+            this.game_input.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.game_input.Location = new System.Drawing.Point(15, 553);
+            this.game_input.Name = "game_input";
+            this.game_input.Size = new System.Drawing.Size(226, 20);
+            this.game_input.TabIndex = 10;
+            // 
+            // game_path
+            // 
+            this.game_path.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.game_path.Location = new System.Drawing.Point(249, 553);
+            this.game_path.Name = "game_path";
+            this.game_path.Size = new System.Drawing.Size(75, 20);
+            this.game_path.TabIndex = 11;
+            this.game_path.Text = "Browse...";
+            this.game_path.UseVisualStyleBackColor = true;
+            this.game_path.Click += new System.EventHandler(this.game_path_Click);
+            // 
+            // game_choose
+            // 
+            this.game_choose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.game_choose.FormattingEnabled = true;
+            this.game_choose.Items.AddRange(new object[] {
+            "Misc"});
+            this.game_choose.Location = new System.Drawing.Point(333, 552);
+            this.game_choose.Name = "game_choose";
+            this.game_choose.Size = new System.Drawing.Size(121, 21);
+            this.game_choose.TabIndex = 12;
+            // 
+            // game_add
+            // 
+            this.game_add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.game_add.Location = new System.Drawing.Point(460, 550);
+            this.game_add.Name = "game_add";
+            this.game_add.Size = new System.Drawing.Size(104, 26);
+            this.game_add.TabIndex = 13;
+            this.game_add.Text = "Add";
+            this.game_add.UseVisualStyleBackColor = true;
+            this.game_add.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 580);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Profile Name";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(248, 579);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(61, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Profile Path";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(330, 580);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Game";
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.setupToolStripMenuItem});
+            this.gameSetupToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(777, 24);
-            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Size = new System.Drawing.Size(771, 24);
+            this.menuStrip1.TabIndex = 17;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // setupToolStripMenuItem
+            // saveToolStripMenuItem
             // 
-            this.setupToolStripMenuItem.Name = "setupToolStripMenuItem";
-            this.setupToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
-            this.setupToolStripMenuItem.Text = "Setup";
-            this.setupToolStripMenuItem.Click += new System.EventHandler(this.setupToolStripMenuItem_Click);
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // gameSetupToolStripMenuItem
+            // 
+            this.gameSetupToolStripMenuItem.Name = "gameSetupToolStripMenuItem";
+            this.gameSetupToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
+            this.gameSetupToolStripMenuItem.Text = "Game Setup";
+            this.gameSetupToolStripMenuItem.Click += new System.EventHandler(this.gameSetupToolStripMenuItem_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(777, 392);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(771, 611);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.game_add);
+            this.Controls.Add(this.game_choose);
+            this.Controls.Add(this.game_path);
+            this.Controls.Add(this.game_input);
+            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.label1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
-            this.Text = "GameSaveSwapper";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.Shown += new System.EventHandler(this.Form1_Shown);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.Text = "Game Save Swapper";
+            this.Load += new System.EventHandler(this.Setup_Load);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -195,18 +275,28 @@
 
         #endregion
 
-        private System.Windows.Forms.RadioButton saveProfile1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.RadioButton saveProfile3;
-        private System.Windows.Forms.RadioButton saveProfile4;
-        private System.Windows.Forms.RadioButton saveProfile2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader GameName;
+        private System.Windows.Forms.ColumnHeader SavePath;
+        private System.Windows.Forms.ColumnHeader test;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem playToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changePathToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.TextBox game_input;
+        private System.Windows.Forms.Button game_path;
+        private System.Windows.Forms.ComboBox game_choose;
+        private System.Windows.Forms.Button game_add;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gameSetupToolStripMenuItem;
     }
 }
-
