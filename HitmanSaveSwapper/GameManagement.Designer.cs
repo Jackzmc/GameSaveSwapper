@@ -52,7 +52,6 @@
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // game_name
             // 
@@ -81,7 +80,7 @@
             this.browse.TabIndex = 2;
             this.browse.Text = "Browse...";
             this.browse.UseVisualStyleBackColor = true;
-            this.browse.Click += new System.EventHandler(this.button1_Click);
+            this.browse.Click += new System.EventHandler(this.browse_Click);
             // 
             // add
             // 
@@ -92,7 +91,7 @@
             this.add.TabIndex = 3;
             this.add.Text = "Add";
             this.add.UseVisualStyleBackColor = true;
-            this.add.Click += new System.EventHandler(this.button2_Click);
+            this.add.Click += new System.EventHandler(this.add_Click);
             // 
             // label1
             // 

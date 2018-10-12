@@ -21,7 +21,7 @@ namespace GameSaveSwapper {
         private string gamepath = "";
         static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
 
-        private void button1_Click(object sender, EventArgs e) {
+        private void browse_Click(object sender, EventArgs e) { //browse button
             var dialog = new FolderBrowserDialog {
                 Description = "Game Save File Directory",
 
@@ -33,12 +33,7 @@ namespace GameSaveSwapper {
                 gamepath = dialog.SelectedPath.ToString();
             }
         }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e) {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e) {
+        private void add_Click(object sender, EventArgs e) {
             if (textBox1.Text == "") {
                 MessageBox.Show("Please enter a game name");
                 return;
@@ -46,12 +41,28 @@ namespace GameSaveSwapper {
                 MessageBox.Show("Please select the save location of the game.");
                 return;
             }
-            SaveGames(listView1);
+            var dir = new DirectoryInfo(Path.Combine(SAVEPATH,textBox1.Text));
+            if (!dir.Exists) {
+                Directory.CreateDirectory(dir.FullName);
+            }
+            addGame(new Game(textBox1.Text,gamepath));
             textBox1.Text = "";
             gamepath = "";
         }
 
-        private void SaveGames(ListView list) {
+        private void addGame(Game game) {
+            List<Game> games = getGames().ToList();
+            games.Add(game);
+            listView1.Items.Add(game.getListViewItem());
+            SaveGames(games.ToArray());
+        }
+
+        private void SaveGames(Game[] games) {
+            var json = JsonConvert.SerializeObject(games);
+            System.IO.File.WriteAllText(Path.Combine(SAVEPATH, "games.json"), json);
+        }
+
+        /*private void SaveGames(ListView list) {
             List<dynamic> listitems = new List<dynamic>();
             foreach (ListViewItem item in list.Items) {
                 dynamic obj = new ExpandoObject();
@@ -61,7 +72,7 @@ namespace GameSaveSwapper {
             }
             var json = JsonConvert.SerializeObject(listitems);
             System.IO.File.WriteAllText(Path.Combine(SAVEPATH, "games.json"), json);
-        }
+        }*/
 
         private void LoadGames(ListView list) {
             String json = System.IO.File.ReadAllText(Path.Combine(SAVEPATH, "games.json"));
@@ -94,14 +105,5 @@ namespace GameSaveSwapper {
 
     }
 
-    public class Game {
-        public string Name;
-        public string save_path;
-
-        public Game(String name, String save_path) {
-            this.Name = name;
-            this.save_path = save_path;
-        }
-
-    }
+    
 }
