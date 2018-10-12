@@ -207,42 +207,46 @@ namespace GameSaveSwapper {
 
         }
 
-        /*private void EmptyGameSave(Game game) {
+        private void EmptyGameSaveFolder(Game game) {
             try {   // Open the text file using a stream reader.
                 var swapFile = Path.Combine(game.save_path, ".swapper");
                 //file contents = name of profile
                 if (!File.Exists(swapFile)) {
+                    MessageBox.Show("There is existing save files in there. Option will be added to move them later");
                     return;
                 }
                 using (StreamReader sr = new StreamReader(swapFile)) {
-                    String line = sr.ReadToEnd();
-                    int fromID;
-                    if (!int.TryParse(line, out fromID)) {
-                        MessageBox.Show("Unknown location to store hitman save - Not A number. Explode world?");
+                    String profileName = sr.ReadToEnd();
+                    Profile profile = findProfile(profileName);
+                    if (profile == null) {
+                        MessageBox.Show("swapper file contains a profile that doesnt exist");
                         return;
                     }
-                    Debug.WriteLine("Line: " + line + "| ID:" + fromID);
-                    string saveLocation = Path.Combine(SAVEPATH, "save" + fromID);
+
+                    Debug.WriteLine("Existing Profile: " + profile.name);
+                    string saveLocation = profile.storeLocation;
                     if (!Directory.Exists(saveLocation)) {
                         Directory.CreateDirectory(saveLocation);
                     }
+
+                    DirectoryInfo gameFolder = new DirectoryInfo(game.save_path);
                     //TODO: Wipe storage folders & files (autosaves stack up)
-                    Debug.WriteLine(HITMANPATH.Parent + HITMANPATH.ToString());
-                    List<DirectoryInfo> subFolders = HITMANPATH.GetDirectories().ToList();
-                    Debug.WriteLine("[" + fromID + "] Moving " + subFolders.Count + " files to %PROFILEPATH%/save" + fromID);
+                    List<DirectoryInfo> subFolders = gameFolder.GetDirectories().ToList();
+                    Debug.WriteLine("Moving " + subFolders.Count + " files to %PROFILEPATH%/" + game.Name + "/" + profile.name);
                     foreach (DirectoryInfo dir in subFolders) {
                         //dir.MoveTo(Path.Combine(profilename,dir.Name));
-                        List<FileInfo> hitmanFiles = dir.GetFiles("*", SearchOption.TopDirectoryOnly).ToList();
-                        foreach (FileInfo file in hitmanFiles) {
+                        List<FileInfo> saveFiles = dir.GetFiles("*", SearchOption.AllDirectories).ToList();
+                        foreach (FileInfo file in saveFiles) {
                             try {
-                                string destDir = Path.Combine(saveLocation, dir.Name);
-                                string destFile = Path.Combine(destDir, file.Name);
-                                if (!new DirectoryInfo(destDir).Exists) {
-                                    Directory.CreateDirectory(destDir);
+                                string destinationSubFolder = Path.Combine(profile.storeLocation, dir.Name);
+                                string destFile = Path.Combine(destinationSubFolder, file.Name);
+                                if (!Directory.Exists(destinationSubFolder)) {
+                                    Directory.CreateDirectory(destinationSubFolder);
                                 }
                                 if (File.Exists(destFile)) {
                                     File.Delete(destFile);
                                 }
+                                Debug.WriteLine(destFile);
                                 file.MoveTo(destFile);
                             } catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException) {
                                 Debug.WriteLine("Failed move: " + ex.Message);
@@ -250,34 +254,109 @@ namespace GameSaveSwapper {
                         }
                     }
                 }
+                Debug.WriteLine("Emptied files & folders");
             } catch (Exception e) {
                 Console.WriteLine("The file could not be read: " + e.Message);
                 throw;
             }
-        }*/
+        }
 
         private void LoadGameSave(Game game, Profile profile) {
+            string saveLocation = game.save_path;
+            if (!Directory.Exists(saveLocation) || !Directory.Exists(profile.storeLocation)) {
+                //Directory.CreateDirectory(saveLocation);
+                Debug.WriteLine("Invalid folder or missing folder for profile " + profile.name);
+                return; //Don't do anything; no need
+            }
+            List<DirectoryInfo> subFolders = new DirectoryInfo(profile.storeLocation).GetDirectories().ToList();
+            Debug.WriteLine("Loading profile: " + profile.name);
+            Debug.WriteLine("Moving " + subFolders.Count + " files to GAME");
+            foreach (DirectoryInfo dir in subFolders) {
+                //dir.MoveTo(Path.Combine(profilename,dir.Name));
+                List<FileInfo> sourceFiles = dir.GetFiles("*", SearchOption.TopDirectoryOnly).ToList();
+                foreach (FileInfo file in sourceFiles) {
+                    try {
+                        string destDir = Path.Combine(game.save_path, dir.Name);
+                        string destFile = Path.Combine(destDir, file.Name);
+                        if (!new DirectoryInfo(destDir).Exists) {
+                            Directory.CreateDirectory(destDir);
+                        }
+                        if (File.Exists(destFile)) {
+                            File.Delete(destFile);
+                        }
+                        file.MoveTo(destFile);
+                    } catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException) {
+                        Debug.WriteLine("Failed move: " + ex.Message);
+                    }
+                }
+            }
+            System.IO.File.WriteAllText(Path.Combine(game.save_path, ".swapper"), profile.name);
+        }
 
+        private void LoadGameSave(Profile profile) {
+            if (profile.game == null) {
+                throw new ArgumentException("Profile does not contain Game class");
+            }
+            Game game = profile.game;
+            LoadGameSave(game,profile);
+        }
+
+        private void listView1_MouseClick(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
+                if (listView1.FocusedItem.Bounds.Contains(e.Location)) {
+                    contextMenuStrip1.Show(Cursor.Position);
+                }
+            }
         }
 
         private void playToolStripMenuItem_Click(object sender, EventArgs e) {
-            NotImplemented();
+            ToolStripMenuItem clicked = (ToolStripMenuItem) sender;
+            var item = listView1.FocusedItem;
+
+            Profile profile = convertToProfile(item);
+            Debug.WriteLine("New Profile: " + profile.name);
+            EmptyGameSaveFolder(profile.game);
+            LoadGameSave(profile);
         }
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
             NotImplemented();
         }
 
         private void changePathToolStripMenuItem_Click(object sender, EventArgs e) {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
             NotImplemented();
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
             NotImplemented();
         }
 
         private void NotImplemented() {
             MessageBox.Show("Feature not implemented");
+        }
+
+        private Profile findProfile(String name) {
+            Profile[] profiles = GetProfiles();
+            foreach (var profile in profiles) {
+                if (profile.name.Equals(name)) return profile;
+            }
+            return null;
+        }
+
+        private Game findGame(String name) {
+            Game[] games = new GameManagement().getGames();
+            foreach (var game in games) {
+                if (game.Name.Equals(name)) return game;
+            }
+            return null;
+        }
+
+        private Profile convertToProfile(ListViewItem item) {
+            Profile profile = new Profile(item.SubItems[0].Text, item.SubItems[1].Text, findGame(item.Group.Header));
+            return profile;
         }
     }
 }
