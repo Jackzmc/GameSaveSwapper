@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Dynamic;
 using System.IO;
@@ -14,16 +15,30 @@ using static System.Windows.Forms.ListViewItem;
 
 namespace GameSaveSwapper {
     public partial class GameManagement : Form {
-        private Main main;
+        
         public GameManagement() {
             this.main = (Main) Application.OpenForms[0];
             InitializeComponent();
         }
+        
+        //variables
+        private Main main;
+        static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
 
         private string gamepath;
         private string exepath;
-        static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
+        private List<Game> games;
 
+        //misc events
+        private void GameManagement_Load(object sender, EventArgs e) {
+            this.games = getGames();
+            LoadGamesList(listView1);
+        }
+
+        private void GameManagement_FormClosing(object sender, FormClosingEventArgs e) {
+            main.reloadGameChooser();
+        }
+        //click events
         private void browsesaveloc_Click(object sender, EventArgs e) { //browse button
             var dialog = new FolderBrowserDialog {
                 Description = "Game Save File Directory",
@@ -70,28 +85,19 @@ namespace GameSaveSwapper {
             if (!dir.Exists) {
                 Directory.CreateDirectory(dir.FullName);
             }
-            addGame(new Game(textBox1.Text,exepath,gamepath));
+
+            Game newGame = new Game(textBox1.Text, exepath, gamepath);
+            this.games.Add(newGame);
+            this.listView1.Items.Add(newGame.getListViewItem());
             textBox1.Text = "";
             gamepath = null;
             exepath = null;
         }
+        //internal functions
 
-        private void addGame(Game game) {
-            List<Game> games = getGames().ToList();
-            games.Add(game);
-            listView1.Items.Add(game.getListViewItem());
-            SaveGames(games.ToArray());
-        }
-
-        private void SaveGames(Game[] games) {
-            var json = JsonConvert.SerializeObject(games);
-            System.IO.File.WriteAllText(Path.Combine(SAVEPATH, "games.json"), json);
-        }
-
-        private void LoadGames(ListView list) {
+        private void LoadGamesList(ListView list) {
             list.Items.Clear();
-            String json = System.IO.File.ReadAllText(Path.Combine(SAVEPATH, "games.json"));
-            Game[] games = getGames();
+            Game[] games = this.games.ToArray();
             foreach (Game game in games) {
                 var newList = new ListViewItem();
                 newList.Name = game.Name;
@@ -102,22 +108,47 @@ namespace GameSaveSwapper {
             }
         }
 
-        public Game[] getGames() {
+        //NEEDS MOVING
+        private void SaveGames(List<Game> games) {
+            var json = JsonConvert.SerializeObject(games);
+            System.IO.File.WriteAllText(Path.Combine(SAVEPATH, "games.json"), json);
+        }
+
+        public List<Game> getGames() {
             String json = System.IO.File.ReadAllText(Path.Combine(SAVEPATH, "games.json"));
-            return JsonConvert.DeserializeObject<List<Game>>(json).ToArray();
+            return JsonConvert.DeserializeObject<List<Game>>(json);
         }
+        //END NEEDS MOVING
 
-        private void GameManagement_Load(object sender, EventArgs e) {
-            LoadGames(listView1);
-        }
-
-        private void GameManagement_FormClosing(object sender, FormClosingEventArgs e) {
-            main.reloadGameChooser();  
-        }
+        //click events
 
         private void launchGameToolStripMenuItem_Click(object sender, EventArgs e) {
-            main.NotImplemented();
-            
+            var item = listView1.FocusedItem;
+            for (var i = 0; i < this.games.Count; i++) {
+                if (this.games[i].Name == item.SubItems[0].Text) {
+                    Game game = this.games[i];
+                    if (game.exePath == null || game.exePath == "") {
+                        var result = MessageBox.Show("Game does not have an exe specified, would you like to add one?",
+                            "EXE Not Found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes) {
+                            main.NotImplemented();
+                            
+                        }
+                        return;
+                    }
+                    if (File.Exists(game.exePath)) {
+                        Process.Start(game.exePath);
+                    } else {
+                        MessageBox.Show("Exe provided does not exist", "EXE Not Found", MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+
+                    return;
+                }
+            }
+
+            MessageBox.Show("Game was not found in list of games, try reloading.", "Game not found",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -130,21 +161,26 @@ namespace GameSaveSwapper {
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
             var item = listView1.FocusedItem;
-            List<Game> games = getGames().ToList();
-            for (var i = 0; i < games.Count; i++) {
-                if (games[i].Name.Equals(item.SubItems[0].Text)) {
-                    games.RemoveAt(i);
+            for (var i = 0; i < this.games.Count; i++) {
+                if (this.games[i].Name.Equals(item.SubItems[0].Text)) {
+                    this.games.RemoveAt(i);
                 }
             }
             //TODO: check for folder and if has no files, delete
            
             //check deleteToolStripMenuItem_Click on main to see what it does
-            SaveGames(games.ToArray());
-            LoadGames(listView1);
+            SaveGames(this.games);
+            LoadGamesList(listView1); 
         }
 
         private void chooseEXEToolStripMenuItem_Click(object sender, EventArgs e) {
             main.NotImplemented();
+        }
+
+        private void openSaveDirectoryToolStripMenuItem_Click(object sender, EventArgs e) {
+            var item = listView1.FocusedItem;
+            Game game = main.findGame(item.SubItems[0].Text);
+            Process.Start(game.save_path);
         }
     }
 

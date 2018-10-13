@@ -33,6 +33,7 @@
             this.swapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveExistingSaveHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,13 +45,13 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gameSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveExistingSaveHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportIssueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openProfileDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -100,53 +101,62 @@
             this.moveExistingSaveHereToolStripMenuItem,
             this.changePathToolStripMenuItem,
             this.toolStripSeparator2,
+            this.openProfileDirectoryToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(203, 148);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(203, 170);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // playToolStripMenuItem1
             // 
             this.playToolStripMenuItem1.Name = "playToolStripMenuItem1";
-            this.playToolStripMenuItem1.Size = new System.Drawing.Size(142, 22);
+            this.playToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
             this.playToolStripMenuItem1.Text = "Play";
             this.playToolStripMenuItem1.Click += new System.EventHandler(this.playToolStripMenuItem1_Click);
             // 
             // swapToolStripMenuItem
             // 
             this.swapToolStripMenuItem.Name = "swapToolStripMenuItem";
-            this.swapToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.swapToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.swapToolStripMenuItem.Text = "Swap";
             this.swapToolStripMenuItem.Click += new System.EventHandler(this.swapToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
             // 
             // renameToolStripMenuItem
             // 
             this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            this.renameToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.renameToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.renameToolStripMenuItem.Text = "Rename";
             this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+            // 
+            // moveExistingSaveHereToolStripMenuItem
+            // 
+            this.moveExistingSaveHereToolStripMenuItem.Enabled = false;
+            this.moveExistingSaveHereToolStripMenuItem.Name = "moveExistingSaveHereToolStripMenuItem";
+            this.moveExistingSaveHereToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.moveExistingSaveHereToolStripMenuItem.Text = "Move Existing Save Here";
+            this.moveExistingSaveHereToolStripMenuItem.Click += new System.EventHandler(this.moveExistingSaveHereToolStripMenuItem_Click);
             // 
             // changePathToolStripMenuItem
             // 
             this.changePathToolStripMenuItem.Name = "changePathToolStripMenuItem";
-            this.changePathToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.changePathToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.changePathToolStripMenuItem.Text = "Change Path";
             this.changePathToolStripMenuItem.Click += new System.EventHandler(this.changePathToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -162,7 +172,7 @@
             // 
             this.game_choose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.game_choose.FormattingEnabled = true;
-            this.game_choose.Location = new System.Drawing.Point(247, 574);
+            this.game_choose.Location = new System.Drawing.Point(247, 575);
             this.game_choose.Name = "game_choose";
             this.game_choose.Size = new System.Drawing.Size(121, 21);
             this.game_choose.TabIndex = 12;
@@ -222,9 +232,16 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // reloadProfilesToolStripMenuItem
+            // 
+            this.reloadProfilesToolStripMenuItem.Name = "reloadProfilesToolStripMenuItem";
+            this.reloadProfilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.reloadProfilesToolStripMenuItem.Text = "Reload Profiles";
+            this.reloadProfilesToolStripMenuItem.Click += new System.EventHandler(this.reloadProfilesToolStripMenuItem_Click);
             // 
             // gameSetupToolStripMenuItem
             // 
@@ -232,21 +249,6 @@
             this.gameSetupToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
             this.gameSetupToolStripMenuItem.Text = "Game Setup";
             this.gameSetupToolStripMenuItem.Click += new System.EventHandler(this.gameSetupToolStripMenuItem_Click);
-            // 
-            // reloadProfilesToolStripMenuItem
-            // 
-            this.reloadProfilesToolStripMenuItem.Name = "reloadProfilesToolStripMenuItem";
-            this.reloadProfilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reloadProfilesToolStripMenuItem.Text = "Reload Profiles";
-            this.reloadProfilesToolStripMenuItem.Click += new System.EventHandler(this.reloadProfilesToolStripMenuItem_Click);
-            // 
-            // moveExistingSaveHereToolStripMenuItem
-            // 
-            this.moveExistingSaveHereToolStripMenuItem.Enabled = false;
-            this.moveExistingSaveHereToolStripMenuItem.Name = "moveExistingSaveHereToolStripMenuItem";
-            this.moveExistingSaveHereToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.moveExistingSaveHereToolStripMenuItem.Text = "Move Existing Save Here";
-            this.moveExistingSaveHereToolStripMenuItem.Click += new System.EventHandler(this.moveExistingSaveHereToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -261,23 +263,30 @@
             // documentationToolStripMenuItem
             // 
             this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.documentationToolStripMenuItem.Text = "Documentation";
             this.documentationToolStripMenuItem.Click += new System.EventHandler(this.documentationToolStripMenuItem_Click);
-            // 
-            // checkForUpdatesToolStripMenuItem
-            // 
-            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
-            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // reportIssueToolStripMenuItem
             // 
             this.reportIssueToolStripMenuItem.Name = "reportIssueToolStripMenuItem";
-            this.reportIssueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reportIssueToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.reportIssueToolStripMenuItem.Text = "Report Issue";
             this.reportIssueToolStripMenuItem.Click += new System.EventHandler(this.reportIssueToolStripMenuItem_Click);
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
+            // 
+            // openProfileDirectoryToolStripMenuItem
+            // 
+            this.openProfileDirectoryToolStripMenuItem.Name = "openProfileDirectoryToolStripMenuItem";
+            this.openProfileDirectoryToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openProfileDirectoryToolStripMenuItem.Text = "Open Profile Directory";
+            this.openProfileDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openProfileDirectoryToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -334,5 +343,6 @@
         private System.Windows.Forms.ToolStripMenuItem documentationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportIssueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openProfileDirectoryToolStripMenuItem;
     }
 }
