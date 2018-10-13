@@ -17,11 +17,12 @@ namespace GameSaveSwapper {
         public GameManagement() {
             InitializeComponent();
         }
-    
-        private string gamepath = "";
+
+        private string gamepath;
+        private string exepath;
         static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
 
-        private void browse_Click(object sender, EventArgs e) { //browse button
+        private void browsesaveloc_Click(object sender, EventArgs e) { //browse button
             var dialog = new FolderBrowserDialog {
                 Description = "Game Save File Directory",
 
@@ -31,8 +32,23 @@ namespace GameSaveSwapper {
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK) {
                 gamepath = dialog.SelectedPath.ToString();
+                gameloc_box.Text = gamepath;
             }
         }
+        private void browse_exe_Click(object sender, EventArgs e) {
+            var dialog = new OpenFileDialog() {
+                CheckFileExists = true,
+                Filter = "Executables|*.exe",
+                InitialDirectory = @"C:/Program Files (x86)/Steam",
+                Title = "Choose game .exe"
+            };
+            DialogResult result = dialog.ShowDialog();
+            if (result == DialogResult.OK) {
+                exepath = dialog.FileName;
+                gameexe_box.Text = exepath;
+            }
+        }
+
         private void add_Click(object sender, EventArgs e) {
             if (textBox1.Text == "") {
                 MessageBox.Show("Please enter a game name");
@@ -45,9 +61,10 @@ namespace GameSaveSwapper {
             if (!dir.Exists) {
                 Directory.CreateDirectory(dir.FullName);
             }
-            addGame(new Game(textBox1.Text,gamepath));
+            addGame(new Game(textBox1.Text,exepath,gamepath));
             textBox1.Text = "";
-            gamepath = "";
+            gamepath = null;
+            exepath = null;
         }
 
         private void addGame(Game game) {
@@ -89,20 +106,19 @@ namespace GameSaveSwapper {
 
         public Game[] getGames() {
             String json = System.IO.File.ReadAllText(Path.Combine(SAVEPATH, "games.json"));
-            List<dynamic> jsonOut = JsonConvert.DeserializeObject<List<dynamic>>(json);
-            List<Game> games = new List<Game>();
-            foreach (dynamic item in jsonOut) {
-                games.Add(new Game(item.Name.ToString(),item.save_path.ToString()));
-
-            }
-
-            return games.ToArray();
+            return JsonConvert.DeserializeObject<List<Game>>(json).ToArray();
         }
 
         private void GameManagement_Load(object sender, EventArgs e) {
             LoadGames(listView1);
         }
 
+        private void GameManagement_FormClosing(object sender, FormClosingEventArgs e) {
+            Main main = (Main) Application.OpenForms[0];
+            main.reloadGameChooser();  
+        }
+
+       
     }
 
     

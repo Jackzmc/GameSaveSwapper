@@ -11,10 +11,12 @@ namespace GameSaveSwapper {
     public class Game {
         public string Name;
         public string save_path;
+        public string exePath;
 
-        public Game(String name, String save_path) {
+        public Game(String name, String exeLocation, String save_path) {
             this.Name = name;
             this.save_path = save_path;
+            this.exePath = exeLocation;
         }
 
         public ListViewItem getListViewItem() {
@@ -31,14 +33,15 @@ namespace GameSaveSwapper {
     public class Profile {
         public string name;
         public string storeLocation;
-        public string Group;
+        public string group;
+        [JsonIgnore]
         public Game game;
 
         [JsonConstructor]
-        public Profile(String name, String storeLocation, String Group) {
+        public Profile(String name, String storeLocation,  String group) {
             this.name = name;
             this.storeLocation = storeLocation;
-            this.Group = Group;
+            this.group = group;
         }
 
         public Profile(String name, String storeLocation, Game game) {

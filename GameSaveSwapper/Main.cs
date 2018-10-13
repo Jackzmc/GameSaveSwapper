@@ -23,12 +23,18 @@ namespace GameSaveSwapper {
          * [Done] Create new folder on game add 
          * Create new folder on profile save browse
          * Find game path by name?
-         * Implement ContextMenuStrip items (Play,Rename,Change Path, Delete)
-         * 
+         * Add folder SAVEPATH/(GAME NAME)/(PROFILE NAME)
+         * Remove "saveLocation" and just save it in appdata and relative?
+         * Loop all files and folders instead of subfolders and their contents
+         * Implement ContextMenuStrip items:
+         *      Play -> Swap & Launch EXE
+         *      [Done?] Swap (Formely Play) -> Swap directories
+         *      Rename -> Rename name of Profile
+         *      Change Path-> Change Path of profile
+         *      Delete -> delete profile
          */
 
-        static string APPDATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); // AppData folder
-        static string SAVEPATH = Path.Combine(APPDATA_PATH, "GameSaveSwapper");
+        static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
 
         private string profileSaveDir = "/dev/";
 
@@ -37,17 +43,23 @@ namespace GameSaveSwapper {
         }
 
         private void Setup_Load(object sender, EventArgs e) {
+            String gamesJSON = Path.Combine(SAVEPATH, "games.json");
+            String profilesJSON = Path.Combine(SAVEPATH, "profiles.json");
+            if (!File.Exists(gamesJSON)) System.IO.File.WriteAllText(gamesJSON,"[]");
+            if (!File.Exists(profilesJSON)) System.IO.File.WriteAllText(profilesJSON, "[]");
+
             reloadGameChooser(); //reload the combobox
             LoadGroups(); //Load group to listview list
             LoadProfiles(listView1); //grab profiles.json
         }
 
-        private void reloadGameChooser() {
+        public void reloadGameChooser() {
             Game[] games = new GameManagement().getGames();
             foreach (Game game in games) {
                 if (game != null && game.Name != "Misc") game_choose.Items.Add(game.Name);
             }
-            game_choose.SelectedIndex = 0;
+            if(game_choose.Items.Count > 0) game_choose.SelectedIndex = 0;
+
         }
 
         private void SaveProfiles(Profile[] profiles) {
@@ -89,12 +101,12 @@ namespace GameSaveSwapper {
                 var listitem = new ListViewItem();
                 var path = new ListViewSubItem();
 
-                ListViewGroup group = GetGameGroup(profile.Group);
+                ListViewGroup group = GetGameGroup(profile.group);
                 //list.Groups.Add(group);
 
                 path.Text = profile.storeLocation;
 
-                listitem.Group = GetGameGroup(profile.Group);
+                listitem.Group = GetGameGroup(profile.group);
                 listitem.Name = profile.name;
                 listitem.Text = profile.name;
 
@@ -136,14 +148,8 @@ namespace GameSaveSwapper {
             }
             listView1.Groups.Add(new ListViewGroup("Unknown/Invalid"));
         }
-        private ListViewGroup getGameGroup(Game game) {
-            ListViewGroupCollection collection = listView1.Groups;
-            foreach (ListViewGroup group in collection) {
-                if (group.Header != null && game.Name.Equals(group.Header)) {
-                    return group;
-                }
-            }
-            return collection[collection.Count - 1];
+        private ListViewGroup GetGameGroup(Game game) {
+            return GetGameGroup(game.Name);
         }
 
         private ListViewGroup GetGameGroup(String groupname) {
@@ -165,24 +171,31 @@ namespace GameSaveSwapper {
             if (game_input.Text == "") {
                 MessageBox.Show("Please enter a name of a game");
                 return;
-            }else if (profileSaveDir == "") {
-                MessageBox.Show("Please select a path");
-                return;
             }else if (game_choose.SelectedText == null) {
                 MessageBox.Show("Please select a game");
                 return;
             }
 
+            List<Profile> profiles = GetProfiles().ToList();
+
+            String savepath = Path.Combine(SAVEPATH, game_choose.SelectedItem.ToString(), game_input.Text);
+            if (!Directory.Exists(savepath)) {
+                Directory.CreateDirectory(savepath);
+            }
+
+
+            Profile profile = new Profile(game_input.Text,savepath,game_choose.SelectedItem.ToString());
+
+            profiles.Add(profile);
             ListViewItem listItem = new ListViewItem();
 
-            listItem.Group = GetGameGroup(game_choose.SelectedItem.ToString());
+            listItem.Group = GetGameGroup(profile.group);
+            listItem.SubItems.Add(new ListViewSubItem().Text = profile.storeLocation);
 
-            listItem.SubItems.Add(new ListViewSubItem().Text = profileSaveDir);
-
-            listItem.Name = game_input.Text;
-            listItem.Text = game_input.Text;
-
+            listItem.Name = profile.name;
+            listItem.Text = profile.name;
             listView1.Items.Add(listItem);
+            SaveProfiles(profiles.ToArray());
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -195,11 +208,12 @@ namespace GameSaveSwapper {
         }
 
         private void game_path_Click(object sender, EventArgs e) {
-            var browse = new FolderBrowserDialog();
-            browse.Description = "Choose where to save this profile";
-            browse.ShowNewFolderButton = true;
-            //TODO: create a new folder
-            browse.SelectedPath = SAVEPATH;
+            var browse = new FolderBrowserDialog {
+                Description = "Choose where to save this profile",
+                ShowNewFolderButton = true,
+                //TODO: create a new folder
+                SelectedPath = SAVEPATH
+            };
             var result = browse.ShowDialog();
             if (result == DialogResult.OK) {
                 profileSaveDir = browse.SelectedPath;
@@ -309,35 +323,6 @@ namespace GameSaveSwapper {
             }
         }
 
-        private void playToolStripMenuItem_Click(object sender, EventArgs e) {
-            ToolStripMenuItem clicked = (ToolStripMenuItem) sender;
-            var item = listView1.FocusedItem;
-
-            Profile profile = convertToProfile(item);
-            Debug.WriteLine("New Profile: " + profile.name);
-            EmptyGameSaveFolder(profile.game);
-            LoadGameSave(profile);
-        }
-
-        private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            NotImplemented();
-        }
-
-        private void changePathToolStripMenuItem_Click(object sender, EventArgs e) {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            NotImplemented();
-        }
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            NotImplemented();
-        }
-
-        private void NotImplemented() {
-            MessageBox.Show("Feature not implemented");
-        }
-
         private Profile findProfile(String name) {
             Profile[] profiles = GetProfiles();
             foreach (var profile in profiles) {
@@ -357,6 +342,38 @@ namespace GameSaveSwapper {
         private Profile convertToProfile(ListViewItem item) {
             Profile profile = new Profile(item.SubItems[0].Text, item.SubItems[1].Text, findGame(item.Group.Header));
             return profile;
+        }
+
+        private void swapToolStripMenuItem_Click(object sender, EventArgs e) {
+            ToolStripMenuItem clicked = (ToolStripMenuItem)sender;
+            var item = listView1.FocusedItem;
+
+            Profile profile = convertToProfile(item);
+            Debug.WriteLine("New Profile: " + profile.name);
+            EmptyGameSaveFolder(profile.game);
+            LoadGameSave(profile);
+        }
+
+        private void playToolStripMenuItem1_Click(object sender, EventArgs e) {
+            NotImplemented();
+        }
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            NotImplemented();
+        }
+
+        private void changePathToolStripMenuItem_Click(object sender, EventArgs e) {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            NotImplemented();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            NotImplemented();
+        }
+
+        private void NotImplemented() {
+            MessageBox.Show("Feature not implemented");
         }
     }
 }

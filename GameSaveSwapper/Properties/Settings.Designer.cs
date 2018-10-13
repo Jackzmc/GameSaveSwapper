@@ -22,29 +22,5 @@ namespace GameSaveSwapper.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int profilenum {
-            get {
-                return ((int)(this["profilenum"]));
-            }
-            set {
-                this["profilenum"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool firstSetup {
-            get {
-                return ((bool)(this["firstSetup"]));
-            }
-            set {
-                this["firstSetup"] = value;
-            }
-        }
     }
 }
