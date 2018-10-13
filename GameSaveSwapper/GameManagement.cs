@@ -79,18 +79,6 @@ namespace GameSaveSwapper {
             System.IO.File.WriteAllText(Path.Combine(SAVEPATH, "games.json"), json);
         }
 
-        /*private void SaveGames(ListView list) {
-            List<dynamic> listitems = new List<dynamic>();
-            foreach (ListViewItem item in list.Items) {
-                dynamic obj = new ExpandoObject();
-                obj.Name = item.SubItems[0].Text.ToString();
-                obj.save_path = item.SubItems[1].Text.ToString();
-                listitems.Add(obj);
-            }
-            var json = JsonConvert.SerializeObject(listitems);
-            System.IO.File.WriteAllText(Path.Combine(SAVEPATH, "games.json"), json);
-        }*/
-
         private void LoadGames(ListView list) {
             String json = System.IO.File.ReadAllText(Path.Combine(SAVEPATH, "games.json"));
             Game[] games = getGames();

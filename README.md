@@ -19,5 +19,4 @@ Then you can swap profiles!
 
 * Many features are in the todo list (Check Main.cs or Projects if I set that up later on).
 * Help would be appreciated 
-* 
 Created for Heavenira :)

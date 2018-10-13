@@ -21,22 +21,25 @@ namespace GameSaveSwapper {
          * [Done?] Adding a new save profile //Can manually save File->Save
          * [Done] Saving Games
          * [Done] Create new folder on game add 
-         * Create new folder on profile save browse
+         * [Done] Create new folder on profile save browse
          * Find game path by name?
-         * Add folder SAVEPATH/(GAME NAME)/(PROFILE NAME)
-         * Remove "saveLocation" and just save it in appdata and relative?
+         * [Done] Add folder SAVEPATH/(GAME NAME)/(PROFILE NAME)
+         * [Done] Remove "saveLocation" and just save it in appdata and relative?
          * Loop all files and folders instead of subfolders and their contents
-         * Implement ContextMenuStrip items:
+         * Implement ContextMenuStrip items for Main form:
          *      Play -> Swap & Launch EXE
          *      [Done?] Swap (Formely Play) -> Swap directories
          *      Rename -> Rename name of Profile
          *      Change Path-> Change Path of profile
          *      Delete -> delete profile
+         * Implement ContextMenuStrip items for GameMangement:
+         *      Launch Game
+         *      Rename
+         *      Change Path
+         *      Delete
          */
 
         static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
-
-        private string profileSaveDir = "/dev/";
 
         public Main() {
             InitializeComponent();
@@ -65,17 +68,6 @@ namespace GameSaveSwapper {
         private void SaveProfiles(Profile[] profiles) {
             var json = JsonConvert.SerializeObject(profiles);
             System.IO.File.WriteAllText(Path.Combine(SAVEPATH, "profiles.json"), json);
-
-            /*List<dynamic> listitems = new List<dynamic>();
-            foreach(ListViewItem item in list.Items) {
-                dynamic obj = new ExpandoObject();
-                obj.Name = item.SubItems[0].Text.ToString();
-                obj.Path = item.SubItems[1].Text.ToString();
-                obj.Group = item.Group;
-                listitems.Add(obj);
-            }
-            var json = JsonConvert.SerializeObject(listitems);
-            System.IO.File.WriteAllText(Path.Combine(SAVEPATH,"profiles.json"),json);*/
         }
         private void SaveProfilesFromListView(ListView.ListViewItemCollection list) {
             List<Profile> listitems = new List<Profile>();
@@ -116,30 +108,6 @@ namespace GameSaveSwapper {
             }
         }
 
-        /*private void GetProfiles(ListView list) {
-            String json = System.IO.File.ReadAllText(Path.Combine(SAVEPATH, "profiles.json"));
-            List<dynamic> jsonOut = JsonConvert.DeserializeObject<List<dynamic>>(json);
-
-            foreach (dynamic item in jsonOut) {
-                var listitem = new ListViewItem();
-                var path = new ListViewSubItem();
-
-                String groupname = ((Object) item.Group).ToString();
-
-                ListViewGroup group = GetGroup(groupname);
-                list.Groups.Add(group);
-
-                path.Text = item.Path;
-
-                listitem.Group = group;
-                listitem.Name = item.Name;
-                listitem.Text = item.Name;
-
-                listitem.SubItems.Add(path);
-                list.Items.Add(listitem);
-
-            }
-        }*/
 
         private void LoadGroups() {
             Game[] games = new GameManagement().getGames();
@@ -205,20 +173,6 @@ namespace GameSaveSwapper {
         private void gameSetupToolStripMenuItem_Click(object sender, EventArgs e) {
             //this.Hide();
             new GameManagement().Show();
-        }
-
-        private void game_path_Click(object sender, EventArgs e) {
-            var browse = new FolderBrowserDialog {
-                Description = "Choose where to save this profile",
-                ShowNewFolderButton = true,
-                //TODO: create a new folder
-                SelectedPath = SAVEPATH
-            };
-            var result = browse.ShowDialog();
-            if (result == DialogResult.OK) {
-                profileSaveDir = browse.SelectedPath;
-            }
-
         }
 
         private void EmptyGameSaveFolder(Game game) {
