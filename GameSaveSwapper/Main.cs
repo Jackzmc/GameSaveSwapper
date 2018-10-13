@@ -382,5 +382,9 @@ namespace GameSaveSwapper {
         private void documentationToolStripMenuItem_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/Jackzmc/GameSaveSwapper/blob/master/README.md");
         }
+
+        private void reportIssueToolStripMenuItem_Click(object sender, EventArgs e) {
+            Process.Start("https://github.com/Jackzmc/GameSaveSwapper/issues/new");
+        }
     }
 }
