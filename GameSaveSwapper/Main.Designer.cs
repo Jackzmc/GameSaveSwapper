@@ -26,7 +26,7 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.GameName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ProfileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SavePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.playToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,6 +45,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gameSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveExistingSaveHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -64,7 +66,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.GameName,
+            this.ProfileName,
             this.SavePath});
             this.listView1.Location = new System.Drawing.Point(12, 24);
             this.listView1.Name = "listView1";
@@ -74,15 +76,15 @@
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
             // 
-            // GameName
+            // ProfileName
             // 
-            this.GameName.Text = "Name";
-            this.GameName.Width = 133;
+            this.ProfileName.Text = "Profile Name";
+            this.ProfileName.Width = 133;
             // 
             // SavePath
             // 
-            this.SavePath.Text = "Save Directory";
-            this.SavePath.Width = 509;
+            this.SavePath.Text = "Profile Save Path";
+            this.SavePath.Width = 475;
             // 
             // contextMenuStrip1
             // 
@@ -91,11 +93,12 @@
             this.swapToolStripMenuItem,
             this.toolStripSeparator1,
             this.renameToolStripMenuItem,
+            this.moveExistingSaveHereToolStripMenuItem,
             this.changePathToolStripMenuItem,
             this.toolStripSeparator2,
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(143, 126);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(203, 170);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // playToolStripMenuItem1
@@ -205,7 +208,8 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem});
+            this.saveToolStripMenuItem,
+            this.reloadProfilesToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -213,7 +217,7 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -223,6 +227,21 @@
             this.gameSetupToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
             this.gameSetupToolStripMenuItem.Text = "Game Setup";
             this.gameSetupToolStripMenuItem.Click += new System.EventHandler(this.gameSetupToolStripMenuItem_Click);
+            // 
+            // reloadProfilesToolStripMenuItem
+            // 
+            this.reloadProfilesToolStripMenuItem.Name = "reloadProfilesToolStripMenuItem";
+            this.reloadProfilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reloadProfilesToolStripMenuItem.Text = "Reload Profiles";
+            this.reloadProfilesToolStripMenuItem.Click += new System.EventHandler(this.reloadProfilesToolStripMenuItem_Click);
+            // 
+            // moveExistingSaveHereToolStripMenuItem
+            // 
+            this.moveExistingSaveHereToolStripMenuItem.Enabled = false;
+            this.moveExistingSaveHereToolStripMenuItem.Name = "moveExistingSaveHereToolStripMenuItem";
+            this.moveExistingSaveHereToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.moveExistingSaveHereToolStripMenuItem.Text = "Move Existing Save Here";
+            this.moveExistingSaveHereToolStripMenuItem.Click += new System.EventHandler(this.moveExistingSaveHereToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -253,7 +272,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader GameName;
+        private System.Windows.Forms.ColumnHeader ProfileName;
         private System.Windows.Forms.ColumnHeader SavePath;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -272,5 +291,7 @@
         private System.Windows.Forms.ToolStripMenuItem gameSetupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem playToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem swapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadProfilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveExistingSaveHereToolStripMenuItem;
     }
 }

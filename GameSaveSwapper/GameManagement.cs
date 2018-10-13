@@ -14,7 +14,9 @@ using static System.Windows.Forms.ListViewItem;
 
 namespace GameSaveSwapper {
     public partial class GameManagement : Form {
+        private Main main;
         public GameManagement() {
+            this.main = (Main) Application.OpenForms[0];
             InitializeComponent();
         }
 
@@ -46,6 +48,13 @@ namespace GameSaveSwapper {
             if (result == DialogResult.OK) {
                 exepath = dialog.FileName;
                 gameexe_box.Text = exepath;
+            }
+        }
+        private void listView1_MouseClick(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
+                if (listView1.FocusedItem.Bounds.Contains(e.Location)) {
+                    contextMenuStrip1.Show(Cursor.Position);
+                }
             }
         }
 
@@ -102,11 +111,29 @@ namespace GameSaveSwapper {
         }
 
         private void GameManagement_FormClosing(object sender, FormClosingEventArgs e) {
-            Main main = (Main) Application.OpenForms[0];
             main.reloadGameChooser();  
         }
 
-       
+        private void launchGameToolStripMenuItem_Click(object sender, EventArgs e) {
+            main.NotImplemented();
+            
+        }
+
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
+            main.NotImplemented();
+        }
+
+        private void changeSavePathToolStripMenuItem_Click(object sender, EventArgs e) {
+            main.NotImplemented();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
+            main.NotImplemented();
+        }
+
+        private void chooseEXEToolStripMenuItem_Click(object sender, EventArgs e) {
+            main.NotImplemented();
+        }
     }
 
     

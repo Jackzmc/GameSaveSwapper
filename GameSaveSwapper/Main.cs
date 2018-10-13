@@ -57,12 +57,13 @@ namespace GameSaveSwapper {
         }
 
         public void reloadGameChooser() {
+            game_choose.Items.Clear();
             Game[] games = new GameManagement().getGames();
             foreach (Game game in games) {
                 if (game != null && game.Name != "Misc") game_choose.Items.Add(game.Name);
             }
             if(game_choose.Items.Count > 0) game_choose.SelectedIndex = 0;
-
+            LoadGroups();
         }
 
         private void SaveProfiles(Profile[] profiles) {
@@ -110,6 +111,7 @@ namespace GameSaveSwapper {
 
 
         private void LoadGroups() {
+            listView1.Groups.Clear();
             Game[] games = new GameManagement().getGames();
             foreach (Game game in games) {
                 listView1.Groups.Add(new ListViewGroup(game.Name));
@@ -175,20 +177,22 @@ namespace GameSaveSwapper {
             new GameManagement().Show();
         }
 
-        private void EmptyGameSaveFolder(Game game) {
+        private bool EmptyGameSaveFolder(Game game) {
             try {   // Open the text file using a stream reader.
                 var swapFile = Path.Combine(game.save_path, ".swapper");
                 //file contents = name of profile
                 if (!File.Exists(swapFile)) {
-                    MessageBox.Show("There is existing save files in there. Option will be added to move them later");
-                    return;
+                    MessageBox.Show("The game save's directory has saves that are not set for a certain profile. Please right click on a profile and click the 'Move Existing Here' button.","First Time Setup",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    return false;
                 }
                 using (StreamReader sr = new StreamReader(swapFile)) {
                     String profileName = sr.ReadToEnd();
                     Profile profile = findProfile(profileName);
                     if (profile == null) {
-                        MessageBox.Show("swapper file contains a profile that doesnt exist");
-                        return;
+                        MessageBox.Show(
+                            "Game save directory is set for a profile that does not exist. Either create a new profile or click on 'Move Existing Here'",
+                            "Unknown Swapper Profile", MessageBoxButtons.OK);
+                        return false;
                     }
 
                     Debug.WriteLine("Existing Profile: " + profile.name);
@@ -223,6 +227,7 @@ namespace GameSaveSwapper {
                     }
                 }
                 Debug.WriteLine("Emptied files & folders");
+                return true;
             } catch (Exception e) {
                 Console.WriteLine("The file could not be read: " + e.Message);
                 throw;
@@ -272,6 +277,20 @@ namespace GameSaveSwapper {
         private void listView1_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
                 if (listView1.FocusedItem.Bounds.Contains(e.Location)) {
+                    var item = listView1.FocusedItem;
+                    Game game = findGame(item.Group.Header); //todo: optimize, have a global list of games instead of fetching
+                    Debug.WriteLine(game);
+                    if (game != null && game.Name != null) {
+                        var swapFile = Path.Combine(game.save_path, ".swapper");
+                        Debug.WriteLine(File.Exists(swapFile));
+                        if (!File.Exists(swapFile)) {
+                            moveExistingSaveHereToolStripMenuItem.Enabled = true;
+                        } else {
+                            moveExistingSaveHereToolStripMenuItem.Enabled = false;
+                        }
+                    } else {
+                        moveExistingSaveHereToolStripMenuItem.Enabled = false;
+                    }
                     contextMenuStrip1.Show(Cursor.Position);
                 }
             }
@@ -304,8 +323,8 @@ namespace GameSaveSwapper {
 
             Profile profile = convertToProfile(item);
             Debug.WriteLine("New Profile: " + profile.name);
-            EmptyGameSaveFolder(profile.game);
-            LoadGameSave(profile);
+            bool emptySuccess = EmptyGameSaveFolder(profile.game);
+            if(emptySuccess) LoadGameSave(profile);
         }
 
         private void playToolStripMenuItem1_Click(object sender, EventArgs e) {
@@ -326,8 +345,16 @@ namespace GameSaveSwapper {
             NotImplemented();
         }
 
-        private void NotImplemented() {
+        public void NotImplemented() {
             MessageBox.Show("Feature not implemented");
+        }
+
+        private void reloadProfilesToolStripMenuItem_Click(object sender, EventArgs e) {
+            LoadProfiles(listView1);
+        }
+
+        private void moveExistingSaveHereToolStripMenuItem_Click(object sender, EventArgs e) {
+            NotImplemented();
         }
     }
 }
