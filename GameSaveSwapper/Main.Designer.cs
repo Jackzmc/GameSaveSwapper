@@ -47,6 +47,9 @@
             this.gameSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveExistingSaveHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -68,9 +71,9 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ProfileName,
             this.SavePath});
-            this.listView1.Location = new System.Drawing.Point(12, 24);
+            this.listView1.Location = new System.Drawing.Point(12, 27);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(747, 542);
+            this.listView1.Size = new System.Drawing.Size(637, 544);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -98,7 +101,7 @@
             this.toolStripSeparator2,
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(203, 170);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(203, 148);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // playToolStripMenuItem1
@@ -149,7 +152,7 @@
             // game_input
             // 
             this.game_input.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.game_input.Location = new System.Drawing.Point(15, 573);
+            this.game_input.Location = new System.Drawing.Point(15, 575);
             this.game_input.Name = "game_input";
             this.game_input.Size = new System.Drawing.Size(226, 20);
             this.game_input.TabIndex = 10;
@@ -158,7 +161,7 @@
             // 
             this.game_choose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.game_choose.FormattingEnabled = true;
-            this.game_choose.Location = new System.Drawing.Point(247, 572);
+            this.game_choose.Location = new System.Drawing.Point(247, 574);
             this.game_choose.Name = "game_choose";
             this.game_choose.Size = new System.Drawing.Size(121, 21);
             this.game_choose.TabIndex = 12;
@@ -166,9 +169,9 @@
             // game_add
             // 
             this.game_add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.game_add.Location = new System.Drawing.Point(374, 568);
+            this.game_add.Location = new System.Drawing.Point(374, 574);
             this.game_add.Name = "game_add";
-            this.game_add.Size = new System.Drawing.Size(104, 26);
+            this.game_add.Size = new System.Drawing.Size(104, 23);
             this.game_add.TabIndex = 13;
             this.game_add.Text = "Add";
             this.game_add.UseVisualStyleBackColor = true;
@@ -178,7 +181,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 596);
+            this.label2.Location = new System.Drawing.Point(12, 598);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(67, 13);
             this.label2.TabIndex = 14;
@@ -188,7 +191,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(244, 596);
+            this.label4.Location = new System.Drawing.Point(244, 598);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 16;
@@ -198,10 +201,11 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.gameSetupToolStripMenuItem});
+            this.gameSetupToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(771, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(661, 24);
             this.menuStrip1.TabIndex = 17;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -243,11 +247,34 @@
             this.moveExistingSaveHereToolStripMenuItem.Text = "Move Existing Save Here";
             this.moveExistingSaveHereToolStripMenuItem.Click += new System.EventHandler(this.moveExistingSaveHereToolStripMenuItem_Click);
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.documentationToolStripMenuItem,
+            this.checkForUpdatesToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // documentationToolStripMenuItem
+            // 
+            this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.documentationToolStripMenuItem.Text = "Documentation";
+            this.documentationToolStripMenuItem.Click += new System.EventHandler(this.documentationToolStripMenuItem_Click);
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(771, 618);
+            this.ClientSize = new System.Drawing.Size(661, 620);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
@@ -257,6 +284,7 @@
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.label1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(676, 659);
             this.Name = "Main";
             this.Text = "Game Save Swapper";
             this.Load += new System.EventHandler(this.Setup_Load);
@@ -293,5 +321,8 @@
         private System.Windows.Forms.ToolStripMenuItem swapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadProfilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveExistingSaveHereToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem documentationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
     }
 }

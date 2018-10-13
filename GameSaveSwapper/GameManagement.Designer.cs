@@ -59,7 +59,7 @@
             this.game_exe});
             this.listView1.Location = new System.Drawing.Point(12, 9);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(843, 365);
+            this.listView1.Size = new System.Drawing.Size(817, 365);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -102,7 +102,7 @@
             // add
             // 
             this.add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.add.Location = new System.Drawing.Point(780, 380);
+            this.add.Location = new System.Drawing.Point(754, 380);
             this.add.Name = "add";
             this.add.Size = new System.Drawing.Size(75, 44);
             this.add.TabIndex = 3;
@@ -151,14 +151,14 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(496, 407);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(104, 13);
+            this.label3.Size = new System.Drawing.Size(120, 13);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Executable Location";
+            this.label3.Text = "EXE Location (Optional)";
             // 
             // browse_exe
             // 
             this.browse_exe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.browse_exe.Location = new System.Drawing.Point(636, 406);
+            this.browse_exe.Location = new System.Drawing.Point(636, 403);
             this.browse_exe.Name = "browse_exe";
             this.browse_exe.Size = new System.Drawing.Size(104, 20);
             this.browse_exe.TabIndex = 9;
@@ -228,7 +228,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(871, 427);
+            this.ClientSize = new System.Drawing.Size(845, 427);
             this.Controls.Add(this.browse_exe);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.gameexe_box);
@@ -239,6 +239,7 @@
             this.Controls.Add(this.browse_saveloc);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.listView1);
+            this.MinimumSize = new System.Drawing.Size(861, 466);
             this.Name = "GameManagement";
             this.Text = "Game Management";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameManagement_FormClosing);

@@ -1,8 +1,9 @@
 # Game Save Swapper
 
 A tool that will swap the save directory of any game with a click of a button.
-
 It is very alpha, but currently swapping _does_ work.
+
+Check the releases tab to download a compiled build.
 
 ### Getting started
 1. You will need to create a game, go to the **Game Management** option.
@@ -17,6 +18,6 @@ Then you can swap profiles!
 
 ## Notes
 
-* Many features are in the todo list (Check Main.cs or Projects if I set that up later on).
+* Many features are in the todo list (Check the Projects tab on Github)
 * Help would be appreciated 
 Created for Heavenira :)

@@ -89,7 +89,7 @@ namespace GameSaveSwapper {
 
         private void LoadProfiles(ListView list) {
             Profile[] profiles = GetProfiles();
-
+            list.Items.Clear();
             foreach (Profile profile in profiles) {
                 var listitem = new ListViewItem();
                 var path = new ListViewSubItem();
@@ -139,10 +139,10 @@ namespace GameSaveSwapper {
 
         private void button2_Click(object sender, EventArgs e) {
             if (game_input.Text == "") {
-                MessageBox.Show("Please enter a name of a game");
+                MessageBox.Show("Please enter a profile name","Missing Profile Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }else if (game_choose.SelectedText == null) {
-                MessageBox.Show("Please select a game");
+                MessageBox.Show("Please select a game for this profile","Missing Profile Game",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
             }
 
@@ -328,21 +328,39 @@ namespace GameSaveSwapper {
         }
 
         private void playToolStripMenuItem1_Click(object sender, EventArgs e) {
-            NotImplemented();
+            Profile profile = convertToProfile(listView1.FocusedItem);
+            if (profile != null && profile.game != null) {
+                if (File.Exists(profile.game.exePath)) {
+                    swapToolStripMenuItem.PerformClick(); //just swap
+                    Process.Start(profile.game.exePath);
+                    return;
+                }
+            }
+            MessageBox.Show("No exe has been specified for this game.", "Missing EXE Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
             NotImplemented();
         }
 
         private void changePathToolStripMenuItem_Click(object sender, EventArgs e) {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
             NotImplemented();
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            NotImplemented();
+            var item = listView1.FocusedItem;
+            List<Profile> profiles = GetProfiles().ToList();
+            for (var i = 0; i < profiles.Count; i++) {
+                if (profiles[i].name.Equals(item.SubItems[0].Text)) {
+                    profiles.RemoveAt(i);
+                }
+            }
+            /* Gets a list of profiles
+             * Finds profile and removes it from list
+             * Saves profiles to disk
+             * Loads profiles from disk (should rewrite this)
+             */
+            SaveProfiles(profiles.ToArray());
+            LoadProfiles(listView1);
         }
 
         public void NotImplemented() {
@@ -355,6 +373,14 @@ namespace GameSaveSwapper {
 
         private void moveExistingSaveHereToolStripMenuItem_Click(object sender, EventArgs e) {
             NotImplemented();
+        }
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e) {
+            NotImplemented();
+        }
+
+        private void documentationToolStripMenuItem_Click(object sender, EventArgs e) {
+            Process.Start("https://github.com/Jackzmc/GameSaveSwapper/blob/master/README.md");
         }
     }
 }

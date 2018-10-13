@@ -60,10 +60,10 @@ namespace GameSaveSwapper {
 
         private void add_Click(object sender, EventArgs e) {
             if (textBox1.Text == "") {
-                MessageBox.Show("Please enter a game name");
+                MessageBox.Show("Please enter a game name","Missing game name", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }else if (gamepath == "") {
-                MessageBox.Show("Please select the save location of the game.");
+                MessageBox.Show("Please select the save location of the game.","Missing Saves Directory", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             var dir = new DirectoryInfo(Path.Combine(SAVEPATH,textBox1.Text));
@@ -89,6 +89,7 @@ namespace GameSaveSwapper {
         }
 
         private void LoadGames(ListView list) {
+            list.Items.Clear();
             String json = System.IO.File.ReadAllText(Path.Combine(SAVEPATH, "games.json"));
             Game[] games = getGames();
             foreach (Game game in games) {
@@ -128,7 +129,18 @@ namespace GameSaveSwapper {
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
-            main.NotImplemented();
+            var item = listView1.FocusedItem;
+            List<Game> games = getGames().ToList();
+            for (var i = 0; i < games.Count; i++) {
+                if (games[i].Name.Equals(item.SubItems[0].Text)) {
+                    games.RemoveAt(i);
+                }
+            }
+            //TODO: check for folder and if has no files, delete
+           
+            //check deleteToolStripMenuItem_Click on main to see what it does
+            SaveGames(games.ToArray());
+            LoadGames(listView1);
         }
 
         private void chooseEXEToolStripMenuItem_Click(object sender, EventArgs e) {
