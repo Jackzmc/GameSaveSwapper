@@ -36,6 +36,7 @@
             this.moveExistingSaveHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.openProfileDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.game_input = new System.Windows.Forms.TextBox();
             this.game_choose = new System.Windows.Forms.ComboBox();
@@ -51,7 +52,6 @@
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportIssueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openProfileDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -153,6 +153,13 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
             // 
+            // openProfileDirectoryToolStripMenuItem
+            // 
+            this.openProfileDirectoryToolStripMenuItem.Name = "openProfileDirectoryToolStripMenuItem";
+            this.openProfileDirectoryToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openProfileDirectoryToolStripMenuItem.Text = "Open Profile Directory";
+            this.openProfileDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openProfileDirectoryToolStripMenuItem_Click);
+            // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
@@ -163,7 +170,7 @@
             // game_input
             // 
             this.game_input.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.game_input.Location = new System.Drawing.Point(15, 575);
+            this.game_input.Location = new System.Drawing.Point(12, 575);
             this.game_input.Name = "game_input";
             this.game_input.Size = new System.Drawing.Size(226, 20);
             this.game_input.TabIndex = 10;
@@ -263,30 +270,23 @@
             // documentationToolStripMenuItem
             // 
             this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.documentationToolStripMenuItem.Text = "Documentation";
             this.documentationToolStripMenuItem.Click += new System.EventHandler(this.documentationToolStripMenuItem_Click);
             // 
             // reportIssueToolStripMenuItem
             // 
             this.reportIssueToolStripMenuItem.Name = "reportIssueToolStripMenuItem";
-            this.reportIssueToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.reportIssueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reportIssueToolStripMenuItem.Text = "Report Issue";
             this.reportIssueToolStripMenuItem.Click += new System.EventHandler(this.reportIssueToolStripMenuItem_Click);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
-            // 
-            // openProfileDirectoryToolStripMenuItem
-            // 
-            this.openProfileDirectoryToolStripMenuItem.Name = "openProfileDirectoryToolStripMenuItem";
-            this.openProfileDirectoryToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.openProfileDirectoryToolStripMenuItem.Text = "Open Profile Directory";
-            this.openProfileDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openProfileDirectoryToolStripMenuItem_Click);
             // 
             // Main
             // 

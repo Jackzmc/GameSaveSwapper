@@ -31,12 +31,12 @@ namespace GameSaveSwapper {
             String profilesJSON = Path.Combine(SAVEPATH, "profiles.json");
             if (!File.Exists(gamesJSON)) System.IO.File.WriteAllText(gamesJSON, "[]");
             if (!File.Exists(profilesJSON)) System.IO.File.WriteAllText(profilesJSON, "[]");
+            this.profiles = GetProfiles();
 
             reloadGameChooser(); //reload the combobox
-            LoadGroupsToList(); //Load group to listview list
-
-            this.profiles = GetProfiles();
-            LoadProfiles(listView1); //grab profiles.json
+             //Load group to listview list
+            LoadGroupsToList();
+            //LoadProfiles(listView1); //grab profiles.json
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e) {
@@ -103,7 +103,7 @@ namespace GameSaveSwapper {
 
 
 
-        private void LoadProfiles(ListView list) {
+        private void LoadProfiles(ListView list,List<String> activeProfiles) {
             list.Items.Clear();
             foreach (Profile profile in this.profiles) {
                 var listitem = new ListViewItem();
@@ -113,6 +113,8 @@ namespace GameSaveSwapper {
                 //list.Groups.Add(group);
 
                 path.Text = profile.storeLocation;
+                if(activeProfiles.Contains(profile.name)) listitem.Font = new Font(listitem.Font, FontStyle.Bold);
+
 
                 listitem.Group = GetGameGroup(profile.group);
                 listitem.Name = profile.name;
@@ -127,9 +129,18 @@ namespace GameSaveSwapper {
         private void LoadGroupsToList() {
             listView1.Groups.Clear();
             List<Game> games= new GameManagement().getGames();
+            List<String> profileNames = new List<string>();
             foreach (Game game in games) {
                 listView1.Groups.Add(new ListViewGroup(game.Name));
+                if (File.Exists(Path.Combine(game.save_path, ".swapper"))) {
+                    string profile = System.IO.File.ReadAllText(Path.Combine(game.save_path, ".swapper"));
+                    Profile p = findProfile(profile);
+                    if (p != null && p.name != null) {
+                        profileNames.Add(p.name);
+                    }
+                }
             }
+            LoadProfiles(listView1,profileNames);
             listView1.Groups.Add(new ListViewGroup("Unknown/Invalid"));
         }
         private ListViewGroup GetGameGroup(Game game) {
@@ -202,6 +213,7 @@ namespace GameSaveSwapper {
                         }
                     }
                 }
+                File.Delete(swapFile);
                 Debug.WriteLine("Emptied files & folders");
                 return true;
             } catch (Exception e) {
@@ -304,7 +316,10 @@ namespace GameSaveSwapper {
             Profile profile = convertToProfile(item);
             Debug.WriteLine("New Profile: " + profile.name);
             bool emptySuccess = EmptyGameSaveFolder(profile.game);
-            if(emptySuccess) LoadGameSave(profile);
+            if (emptySuccess) {
+                LoadGameSave(profile);
+                LoadGroupsToList();
+            }
         }
 
         private void playToolStripMenuItem1_Click(object sender, EventArgs e) {
@@ -312,6 +327,7 @@ namespace GameSaveSwapper {
             if (profile != null && profile.game != null) {
                 if (File.Exists(profile.game.exePath)) {
                     swapToolStripMenuItem.PerformClick(); //just swap
+                    LoadGroupsToList();
                     Process.Start(profile.game.exePath);
                     return;
                 }
@@ -339,12 +355,24 @@ namespace GameSaveSwapper {
              * Loads profiles from disk (should rewrite this)
              */
             SaveProfiles(this.profiles);
-            LoadProfiles(listView1);
+            LoadGroupsToList();
         }
+
 
         
         private void moveExistingSaveHereToolStripMenuItem_Click(object sender, EventArgs e) {
-            NotImplemented();
+            var item = listView1.FocusedItem;
+            Profile profile = findProfile(item.SubItems[0].Text); //name, 
+            Game game = findGame(item.Group.Header);
+            Debug.WriteLine(profile.name  + "|" + game.Name);
+            if (game == null || profile == null) {
+                MessageBox.Show("Could not find game or profile to move to.", "Game or Profile Not Found",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            System.IO.File.WriteAllText(Path.Combine(game.save_path, ".swapper"), profile.name);
+            EmptyGameSaveFolder(game); //stupid/lazy way but whatever
+            LoadGroupsToList();
         }
         private void openProfileDirectoryToolStripMenuItem_Click(object sender, EventArgs e) {
             var item = listView1.FocusedItem;
@@ -354,12 +382,13 @@ namespace GameSaveSwapper {
                 return;
             }
             Process.Start(profile.storeLocation);
+
         }
 
         //tool/status bar items:
         //file
         private void reloadProfilesToolStripMenuItem_Click(object sender, EventArgs e) {
-            LoadProfiles(listView1);
+            LoadGroupsToList();
         }
 
 
