@@ -92,6 +92,7 @@ namespace GameSaveSwapper {
             textBox1.Text = "";
             gamepath = null;
             exepath = null;
+            SaveGames(this.games);
         }
         //internal functions
 

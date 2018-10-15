@@ -326,9 +326,15 @@ namespace GameSaveSwapper {
             Profile profile = convertToProfile(listView1.FocusedItem);
             if (profile != null && profile.game != null) {
                 if (File.Exists(profile.game.exePath)) {
-                    swapToolStripMenuItem.PerformClick(); //just swap
-                    LoadGroupsToList();
-                    Process.Start(profile.game.exePath);
+                    bool emptySuccess = EmptyGameSaveFolder(profile.game);
+                    if (emptySuccess) {
+                        LoadGameSave(profile);
+                        LoadGroupsToList();
+                        Process.Start(profile.game.exePath); 
+                    } else {
+                        MessageBox.Show("Failed to empty the game save directory.", "Empty Game Saves Failed",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     return;
                 }
             }
@@ -371,7 +377,12 @@ namespace GameSaveSwapper {
                 return;
             }
             System.IO.File.WriteAllText(Path.Combine(game.save_path, ".swapper"), profile.name);
-            EmptyGameSaveFolder(game); //stupid/lazy way but whatever
+            bool moved = EmptyGameSaveFolder(game); //stupid/lazy way but 
+            if (!moved) {
+                MessageBox.Show("Failed to move existing save files to this profile. ", "Move Existing Failed",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             LoadGroupsToList();
         }
         private void openProfileDirectoryToolStripMenuItem_Click(object sender, EventArgs e) {
