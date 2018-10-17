@@ -86,6 +86,18 @@ namespace GameSaveSwapper {
                 Directory.CreateDirectory(dir.FullName);
             }
 
+            if (!Directory.Exists(gamepath)) {
+                MessageBox.Show(
+                    "Inputted save path does not exist. Please use browse or check to make sure save path is valid.",
+                    "Save Path Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }else if(exepath != null && !File.Exists(exepath)) {
+                MessageBox.Show(
+                    "Specified EXE does not exist. Please use browse or check to make sure path is valid.",
+                    "Exe Path Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             Game newGame = new Game(textBox1.Text, exepath, gamepath);
             this.games.Add(newGame);
             this.listView1.Items.Add(newGame.getListViewItem());
@@ -95,6 +107,11 @@ namespace GameSaveSwapper {
             SaveGames(this.games);
         }
         //internal functions
+
+        private bool CheckPathExist(String path) {
+            bool fileExists = 
+            return File.Exists(path);
+        }
 
         private void LoadGamesList(ListView list) {
             list.Items.Clear();

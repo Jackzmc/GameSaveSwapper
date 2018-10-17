@@ -44,8 +44,8 @@
             this.changeSavePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chooseEXEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openSaveDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,7 +135,6 @@
             // 
             this.gameloc_box.Location = new System.Drawing.Point(178, 380);
             this.gameloc_box.Name = "gameloc_box";
-            this.gameloc_box.ReadOnly = true;
             this.gameloc_box.Size = new System.Drawing.Size(304, 20);
             this.gameloc_box.TabIndex = 6;
             // 
@@ -143,7 +142,6 @@
             // 
             this.gameexe_box.Location = new System.Drawing.Point(499, 380);
             this.gameexe_box.Name = "gameexe_box";
-            this.gameexe_box.ReadOnly = true;
             this.gameexe_box.Size = new System.Drawing.Size(241, 20);
             this.gameexe_box.TabIndex = 7;
             // 
@@ -179,7 +177,7 @@
             this.openSaveDirectoryToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(182, 170);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(182, 148);
             // 
             // launchGameToolStripMenuItem
             // 
@@ -219,19 +217,19 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(178, 6);
             // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
             // openSaveDirectoryToolStripMenuItem
             // 
             this.openSaveDirectoryToolStripMenuItem.Name = "openSaveDirectoryToolStripMenuItem";
             this.openSaveDirectoryToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.openSaveDirectoryToolStripMenuItem.Text = "Open Save Directory";
             this.openSaveDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openSaveDirectoryToolStripMenuItem_Click);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // GameManagement
             // 
