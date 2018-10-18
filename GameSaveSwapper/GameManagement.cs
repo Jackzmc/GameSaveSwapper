@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using log4net;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,10 +24,8 @@ namespace GameSaveSwapper {
         
         //variables
         private Main main;
+        private static readonly ILog log = LogManager.GetLogger("gamemanagement");
         static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
-
-        private string gamepath;
-        private string exepath;
         private List<Game> games;
 
         //misc events
@@ -48,8 +47,8 @@ namespace GameSaveSwapper {
             };
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK) {
-                gamepath = dialog.SelectedPath.ToString();
-                gameloc_box.Text = gamepath;
+                //gamepath = dialog.SelectedPath.ToString();
+                gameloc_box.Text = dialog.SelectedPath.ToString();
             }
         }
         private void browse_exe_Click(object sender, EventArgs e) {
@@ -61,8 +60,8 @@ namespace GameSaveSwapper {
             };
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK) {
-                exepath = dialog.FileName;
-                gameexe_box.Text = exepath;
+                //exepath = dialog.FileName;
+                gameexe_box.Text = dialog.FileName;
             }
         }
         private void listView1_MouseClick(object sender, MouseEventArgs e) {
@@ -74,10 +73,12 @@ namespace GameSaveSwapper {
         }
 
         private void add_Click(object sender, EventArgs e) {
-            if (textBox1.Text == "") {
+            var gamepath = gameloc_box.Text;
+            var exepath = gameexe_box.Text;
+            if (textBox1.Text == null) {
                 MessageBox.Show("Please enter a game name","Missing game name", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }else if (gamepath == "") {
+            }else if (gamepath == null) {
                 MessageBox.Show("Please select the save location of the game.","Missing Saves Directory", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -90,13 +91,25 @@ namespace GameSaveSwapper {
                 MessageBox.Show(
                     "Inputted save path does not exist. Please use browse or check to make sure save path is valid.",
                     "Save Path Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                log.Error("Specified Path Invalid: " + gamepath);
                 return;
-            }else if(exepath != null && !File.Exists(exepath)) {
+            }else if(exepath != null && exepath != "" && !File.Exists(exepath)) {
                 MessageBox.Show(
                     "Specified EXE does not exist. Please use browse or check to make sure path is valid.",
                     "Exe Path Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            foreach (Game game in this.games) {
+                Debug.WriteLine(game.Name + "|" + textBox1.Text);
+                if (game.Name.ToLower().Equals(textBox1.Text.ToLower())) {
+                    MessageBox.Show("There is another game that already contains that name.", "Game Already Exists",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    log.Error("Game " + textBox1.Name + " has been already added");
+                    return;
+                }
+            }
+            log.Debug("New Game Added: " + textBox1.Text + "; path: " + gamepath);
 
             Game newGame = new Game(textBox1.Text, exepath, gamepath);
             this.games.Add(newGame);
@@ -105,13 +118,9 @@ namespace GameSaveSwapper {
             gamepath = null;
             exepath = null;
             SaveGames(this.games);
+            
         }
         //internal functions
-
-        private bool CheckPathExist(String path) {
-            bool fileExists = 
-            return File.Exists(path);
-        }
 
         private void LoadGamesList(ListView list) {
             list.Items.Clear();

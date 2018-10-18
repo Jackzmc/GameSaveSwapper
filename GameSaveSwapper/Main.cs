@@ -7,21 +7,24 @@ using System.Drawing;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using log4net;
 using Newtonsoft.Json;
 using static System.Windows.Forms.ListViewItem;
 
 namespace GameSaveSwapper {
     public partial class Main : Form {
         //TODO is on github projects
-
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
         private List<Profile> profiles;
 
         public Main() {
+            log4net.Config.XmlConfigurator.Configure();
             InitializeComponent();
         }
         //events
@@ -37,6 +40,7 @@ namespace GameSaveSwapper {
              //Load group to listview list
             LoadGroupsToList();
             //LoadProfiles(listView1); //grab profiles.json
+            log.Info("Program has started");
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e) {
@@ -253,6 +257,38 @@ namespace GameSaveSwapper {
             }
             System.IO.File.WriteAllText(Path.Combine(game.save_path, ".swapper"), profile.name);
         }
+
+        private void MoveFiles(String source, String destination) {
+            if (!Directory.Exists(source)) {
+                log.Error("MoveFiles: Source location not found");
+                throw new DirectoryNotFoundException();
+            }else if (!Directory.Exists(destination)) {
+                log.Error("MoveFiles: Destination location not found");
+                throw new DirectoryNotFoundException();
+            }
+            DirectoryInfo root = new DirectoryInfo(source);
+            DirectoryInfo dest = new DirectoryInfo(destination);
+            System.IO.FileInfo[] files = null;
+            System.IO.DirectoryInfo[] subDirs = null;
+            string[] entries = null;
+            //check if dest exists, empty?
+            try {
+                entries = Directory.GetFileSystemEntries(source, "*", SearchOption.AllDirectories);
+                
+                //Directory.Move(source,destination);
+            } catch (UnauthorizedAccessException e) {
+                log.Error("MoveFiles: " + e.Message);
+            } catch (System.IO.DirectoryNotFoundException e) {
+                log.Error(e.Message);
+            }
+
+            List<String> output = new List<string>();
+            foreach (String str in entries) {
+                output.Add(str.Substring(Path.GetPathRoot(str).Length));
+            }
+            log.Debug(String.Join(",", output.ToArray()));
+        }
+
         private void listView1_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
                 if (listView1.FocusedItem.Bounds.Contains(e.Location)) {
@@ -374,15 +410,18 @@ namespace GameSaveSwapper {
             if (game == null || profile == null) {
                 MessageBox.Show("Could not find game or profile to move to.", "Game or Profile Not Found",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                log.Error("MoveExisting: Game or profile was null");
                 return;
             }
-            System.IO.File.WriteAllText(Path.Combine(game.save_path, ".swapper"), profile.name);
+            /*System.IO.File.WriteAllText(Path.Combine(game.save_path, ".swapper"), profile.name);
             bool moved = EmptyGameSaveFolder(game); //stupid/lazy way but 
             if (!moved) {
+              
                 MessageBox.Show("Failed to move existing save files to this profile. ", "Move Existing Failed",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
+            }*/
+            MoveFiles(game.save_path,profile.storeLocation);
             LoadGroupsToList();
         }
         private void openProfileDirectoryToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -414,6 +453,10 @@ namespace GameSaveSwapper {
 
         private void reportIssueToolStripMenuItem_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/Jackzmc/GameSaveSwapper/issues/new");
+        }
+
+        private void openLogToolStripMenuItem_Click(object sender, EventArgs e) {
+            System.Diagnostics.Process.Start(Path.Combine(SAVEPATH,"swapper.log"));
         }
     }
 }
