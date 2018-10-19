@@ -190,6 +190,16 @@ namespace GameSaveSwapper {
             var item = listView1.FocusedItem;
             for (var i = 0; i < this.games.Count; i++) {
                 if (this.games[i].Name.Equals(item.SubItems[0].Text)) {
+                    String gamesavepath = Path.Combine(SAVEPATH, this.games[i].Name);
+                    if (main.IsDirectoryEmpty(gamesavepath)) {
+                        Directory.Delete(gamesavepath);
+                    } else {
+                        var result = MessageBox.Show(
+                            "There are profiles for this game. Please delete all profiles first before deleting the game.",
+                            "Existing Profiles", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        log.Error("GameDelete: Existing Profiles in location");
+                        return;
+                    }
                     this.games.RemoveAt(i);
                 }
             }

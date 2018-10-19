@@ -312,7 +312,7 @@ namespace GameSaveSwapper {
             }
             log.Debug(String.Join(",", output.ToArray()));*/
         }
-        private bool IsDirectoryEmpty(string path) {
+        public bool IsDirectoryEmpty(string path) {
             return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 
@@ -413,10 +413,29 @@ namespace GameSaveSwapper {
             var item = listView1.FocusedItem;
             for (var i = 0; i < this.profiles.Count; i++) {
                 if (this.profiles[i].name.Equals(item.SubItems[0].Text)) {
+                    String profileLoc = this.profiles[i].storeLocation;
+                    if (IsDirectoryEmpty(profileLoc)) {
+                        Directory.Delete(this.profiles[i].storeLocation);
+                    } else {
+                        var result = MessageBox.Show(
+                            "There are files in the profile save location, do you wish to delete them? ",
+                            "Existing Files in Save Location", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                        if (result == DialogResult.Yes) {
+                            try {
+                                Directory.Delete(this.profiles[i].storeLocation, true);
+                            } catch (IOException ex) {
+                                log.Error("ProfileDelete: Deleting folder w/ content failed: ",ex);
+                            }
+                            
+                        }else if (result == DialogResult.Cancel) {
+                            return;
+                        }
+                    }
+                    //maybe stop deletion ?
                     this.profiles.RemoveAt(i);
                 }
             }
-           
+            
             /* Gets a list of profiles from global
              * Finds profile and removes it from list
              * Saves profiles to disk
