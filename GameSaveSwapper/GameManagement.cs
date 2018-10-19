@@ -76,9 +76,11 @@ namespace GameSaveSwapper {
             var gamepath = gameloc_box.Text;
             var exepath = gameexe_box.Text;
             if (textBox1.Text == null) {
+                log.Error(("GameAdd: Missing game name"));
                 MessageBox.Show("Please enter a game name","Missing game name", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }else if (gamepath == null) {
+                log.Error("GameAdd: Save location missing");
                 MessageBox.Show("Please select the save location of the game.","Missing Saves Directory", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -91,9 +93,10 @@ namespace GameSaveSwapper {
                 MessageBox.Show(
                     "Inputted save path does not exist. Please use browse or check to make sure save path is valid.",
                     "Save Path Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                log.Error("Specified Path Invalid: " + gamepath);
+                log.Error("GameAdd: Specified Path Invalid: " + gamepath);
                 return;
             }else if(exepath != null && exepath != "" && !File.Exists(exepath)) {
+                log.Error("GameAdd: Provided EXE does not exist");
                 MessageBox.Show(
                     "Specified EXE does not exist. Please use browse or check to make sure path is valid.",
                     "Exe Path Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -166,6 +169,7 @@ namespace GameSaveSwapper {
                     if (File.Exists(game.exePath)) {
                         Process.Start(game.exePath);
                     } else {
+                        log.Error("launchGame: EXE Not found");
                         MessageBox.Show("Exe provided does not exist", "EXE Not Found", MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
@@ -173,7 +177,7 @@ namespace GameSaveSwapper {
                     return;
                 }
             }
-
+            log.Error("launchGame: Game not found in global list");
             MessageBox.Show("Game was not found in list of games, try reloading.", "Game not found",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -218,6 +222,10 @@ namespace GameSaveSwapper {
             var item = listView1.FocusedItem;
             Game game = main.findGame(item.SubItems[0].Text);
             Process.Start(game.save_path);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start("https://github.com/Jackzmc/GameSaveSwapper/wiki/Known-Supported-Games");
         }
     }
 

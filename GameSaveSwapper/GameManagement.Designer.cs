@@ -46,6 +46,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.openSaveDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +61,7 @@
             this.game_exe});
             this.listView1.Location = new System.Drawing.Point(12, 9);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(817, 365);
+            this.listView1.Size = new System.Drawing.Size(826, 374);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -79,12 +80,12 @@
             // game_exe
             // 
             this.game_exe.Text = "Game Executable Location";
-            this.game_exe.Width = 394;
+            this.game_exe.Width = 375;
             // 
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(14, 380);
+            this.textBox1.Location = new System.Drawing.Point(14, 393);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(149, 20);
             this.textBox1.TabIndex = 1;
@@ -92,7 +93,7 @@
             // browse_saveloc
             // 
             this.browse_saveloc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.browse_saveloc.Location = new System.Drawing.Point(378, 403);
+            this.browse_saveloc.Location = new System.Drawing.Point(378, 416);
             this.browse_saveloc.Name = "browse_saveloc";
             this.browse_saveloc.Size = new System.Drawing.Size(104, 20);
             this.browse_saveloc.TabIndex = 2;
@@ -103,11 +104,11 @@
             // add
             // 
             this.add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.add.Location = new System.Drawing.Point(754, 380);
+            this.add.Location = new System.Drawing.Point(754, 393);
             this.add.Name = "add";
             this.add.Size = new System.Drawing.Size(75, 44);
             this.add.TabIndex = 3;
-            this.add.Text = "Add";
+            this.add.Text = "Add Game";
             this.add.UseVisualStyleBackColor = true;
             this.add.Click += new System.EventHandler(this.add_Click);
             // 
@@ -115,7 +116,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 407);
+            this.label1.Location = new System.Drawing.Point(14, 416);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 4;
@@ -125,7 +126,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(175, 407);
+            this.label2.Location = new System.Drawing.Point(175, 416);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(107, 13);
             this.label2.TabIndex = 5;
@@ -133,22 +134,25 @@
             // 
             // gameloc_box
             // 
-            this.gameloc_box.Location = new System.Drawing.Point(178, 380);
+            this.gameloc_box.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gameloc_box.Location = new System.Drawing.Point(178, 393);
             this.gameloc_box.Name = "gameloc_box";
             this.gameloc_box.Size = new System.Drawing.Size(304, 20);
             this.gameloc_box.TabIndex = 6;
             // 
             // gameexe_box
             // 
-            this.gameexe_box.Location = new System.Drawing.Point(499, 380);
+            this.gameexe_box.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gameexe_box.Location = new System.Drawing.Point(499, 393);
             this.gameexe_box.Name = "gameexe_box";
             this.gameexe_box.Size = new System.Drawing.Size(241, 20);
             this.gameexe_box.TabIndex = 7;
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(496, 407);
+            this.label3.Location = new System.Drawing.Point(496, 416);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(120, 13);
             this.label3.TabIndex = 8;
@@ -157,7 +161,7 @@
             // browse_exe
             // 
             this.browse_exe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.browse_exe.Location = new System.Drawing.Point(636, 403);
+            this.browse_exe.Location = new System.Drawing.Point(636, 416);
             this.browse_exe.Name = "browse_exe";
             this.browse_exe.Size = new System.Drawing.Size(104, 20);
             this.browse_exe.TabIndex = 9;
@@ -231,11 +235,24 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(14, 429);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(123, 13);
+            this.linkLabel1.TabIndex = 10;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "View list of tested games";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // GameManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(845, 427);
+            this.ClientSize = new System.Drawing.Size(854, 449);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.browse_exe);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.gameexe_box);
@@ -281,5 +298,6 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chooseEXEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openSaveDirectoryToolStripMenuItem;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }

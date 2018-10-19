@@ -22,5 +22,29 @@ namespace GameSaveSwapper.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool autoupdate {
+            get {
+                return ((bool)(this["autoupdate"]));
+            }
+            set {
+                this["autoupdate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool analytics {
+            get {
+                return ((bool)(this["analytics"]));
+            }
+            set {
+                this["analytics"] = value;
+            }
+        }
     }
 }

@@ -53,6 +53,7 @@
             this.reportIssueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -221,6 +222,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.gameSetupToolStripMenuItem,
+            this.settingsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -240,14 +242,14 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // reloadProfilesToolStripMenuItem
             // 
             this.reloadProfilesToolStripMenuItem.Name = "reloadProfilesToolStripMenuItem";
-            this.reloadProfilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.reloadProfilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reloadProfilesToolStripMenuItem.Text = "Reload Profiles";
             this.reloadProfilesToolStripMenuItem.Click += new System.EventHandler(this.reloadProfilesToolStripMenuItem_Click);
             // 
@@ -296,6 +298,13 @@
             this.openLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openLogToolStripMenuItem.Text = "Open Log";
             this.openLogToolStripMenuItem.Click += new System.EventHandler(this.openLogToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -354,5 +363,6 @@
         private System.Windows.Forms.ToolStripMenuItem reportIssueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openProfileDirectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }

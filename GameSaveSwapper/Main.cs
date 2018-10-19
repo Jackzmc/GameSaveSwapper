@@ -163,119 +163,74 @@ namespace GameSaveSwapper {
             return collection[collection.Count - 1];
             //return new ListViewGroup(groupname);
         }
-        private void LoadGameSave(Profile profile) {
-            if (profile.game == null) {
-                throw new ArgumentException("Profile does not contain Game class");
-            }
-            Game game = profile.game;
-            LoadGameSave(game, profile);
-        }
 
         private bool EmptyGameSaveFolder(Game game) {
-            try {   // Open the text file using a stream reader.
-                var swapFile = Path.Combine(game.save_path, ".swapper");
-                //file contents = name of profile
-                if (!File.Exists(swapFile)) {
-                    MessageBox.Show("The game save's directory has saves that are not set for a certain profile. Please right click on a profile and click the 'Move Existing Here' button.","First Time Setup",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+            var swapFile = Path.Combine(game.save_path, ".swapper");
+            if (!File.Exists(swapFile)) {
+                if (!IsDirectoryEmpty(game.save_path)) {
+                    log.Warn("EmptyGameSaveFolder: Swap file not found");
+                    var result = MessageBox.Show(
+                        "There is save files for this game that do not belong to a certain profile. You can move these by using the 'Move Existing Saves Here' on a profile. \nDo you want to continue & delete this save?",
+                        "First Time Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.No) {
+                        MessageBox.Show(
+                            "You can use 'Move Existing Saves Here' to set where the game's current save files should go to.", "Tip",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    } else {
+                        //delete
+                        NotImplemented();
+                    }
+                } else {
+                    return true;
+                }
+            }
+
+            String swapperText = File.ReadAllText(swapFile);
+            Profile profile = findProfile(swapperText);
+            if (profile == null) {
+                log.Error("EmptyGameSaveFolder: Swapper Profile unknown");
+                var result = MessageBox.Show(
+                    "The game's save directory has a save for a profile that does not exist. Do you wish to continue & delete any save data? You can move the files using 'Move Existing Saves Here' on a profile to keep the data.","Unknown Swapper Profile",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                if (result != DialogResult.Yes) {
                     return false;
                 }
-                using (StreamReader sr = new StreamReader(swapFile)) {
-                    String profileName = sr.ReadToEnd();
-                    Profile profile = findProfile(profileName);
-                    if (profile == null) {
-                        MessageBox.Show(
-                            "Game save directory is set for a profile that does not exist. Either create a new profile or click on 'Move Existing Here'",
-                            "Unknown Swapper Profile", MessageBoxButtons.OK);
-                        return false;
-                    }
-
-                    Debug.WriteLine("Existing Profile: " + profile.name);
-                    string saveLocation = profile.storeLocation;
-                    if (!Directory.Exists(saveLocation)) {
-                        Directory.CreateDirectory(saveLocation);
-                    }
-
-                    DirectoryInfo gameFolder = new DirectoryInfo(game.save_path);
-                    //TODO: Wipe storage folders & files (autosaves stack up)
-                    List<DirectoryInfo> subFolders = gameFolder.GetDirectories().ToList();
-                    Debug.WriteLine("Moving " + subFolders.Count + " files to %PROFILEPATH%/" + game.Name + "/" + profile.name);
-                    foreach (DirectoryInfo dir in subFolders) {
-                        //dir.MoveTo(Path.Combine(profilename,dir.Name));
-                        List<FileInfo> saveFiles = dir.GetFiles("*", SearchOption.AllDirectories).ToList();
-                        foreach (FileInfo file in saveFiles) {
-                            try {
-                                string destinationSubFolder = Path.Combine(profile.storeLocation, dir.Name);
-                                string destFile = Path.Combine(destinationSubFolder, file.Name);
-                                if (!Directory.Exists(destinationSubFolder)) {
-                                    Directory.CreateDirectory(destinationSubFolder);
-                                }
-                                if (File.Exists(destFile)) {
-                                    File.Delete(destFile);
-                                }
-                                Debug.WriteLine(destFile);
-                                file.MoveTo(destFile);
-                            } catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException) {
-                                Debug.WriteLine("Failed move: " + ex.Message);
-                            }
-                        }
-                    }
-                }
-                File.Delete(swapFile);
-                Debug.WriteLine("Emptied files & folders");
-                return true;
-            } catch (Exception e) {
-                Console.WriteLine("The file could not be read: " + e.Message);
-                throw;
             }
+      
+            log.Info("Empty save game folder");
+            DirectoryInfo gameSaveDirectory = new DirectoryInfo(game.save_path);
+            foreach (FileInfo file in gameSaveDirectory.GetFiles()) {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dir in gameSaveDirectory.GetDirectories()) {
+                dir.Delete(true);
+            }
+            return true;
+            
+         }
+
+        private void LoadGameSave(Profile profile) {
+            if (profile.game == null) {
+                throw new ArgumentException("Profile does not contain game class");
+                //Todo: own error
+            }
+            if (!Directory.Exists(profile.game.save_path)) {
+                Directory.CreateDirectory(profile.game.save_path);
+            }
+            if (!Directory.Exists(profile.storeLocation)) {
+                log.Error("LoadGameSave: Save Location for Profile " + profile.name + " not found");
+                throw new DirectoryNotFoundException("Profile save location not found: " + profile.storeLocation);
+            }
+            MoveFiles(profile.storeLocation,profile.game.save_path,true);
+            System.IO.File.WriteAllText(Path.Combine(profile.game.save_path, ".swapper"), profile.name);
         }
 
-        private void LoadGameSave(Game game, Profile profile) {
-            string saveLocation = game.save_path;
-            if (!Directory.Exists(saveLocation) || !Directory.Exists(profile.storeLocation)) {
-                //Directory.CreateDirectory(saveLocation);
-                Debug.WriteLine("Invalid folder or missing folder for profile " + profile.name);
-                return; //Don't do anything; no need
-            }
-            List<DirectoryInfo> subFolders = new DirectoryInfo(profile.storeLocation).GetDirectories().ToList();
-            Debug.WriteLine("Loading profile: " + profile.name);
-            Debug.WriteLine("Moving " + subFolders.Count + " files to GAME");
-            foreach (DirectoryInfo dir in subFolders) {
-                //dir.MoveTo(Path.Combine(profilename,dir.Name));
-                List<FileInfo> sourceFiles = dir.GetFiles("*", SearchOption.TopDirectoryOnly).ToList();
-                foreach (FileInfo file in sourceFiles) {
-                    try {
-                        string destDir = Path.Combine(game.save_path, dir.Name);
-                        string destFile = Path.Combine(destDir, file.Name);
-                        if (!new DirectoryInfo(destDir).Exists) {
-                            Directory.CreateDirectory(destDir);
-                        }
-                        if (File.Exists(destFile)) {
-                            File.Delete(destFile);
-                        }
-                        file.MoveTo(destFile);
-                    } catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException) {
-                        Debug.WriteLine("Failed move: " + ex.Message);
-                    }
-                }
-            }
-            System.IO.File.WriteAllText(Path.Combine(game.save_path, ".swapper"), profile.name);
-        }
-
-        private void MoveFiles(String source, String destination) {
+        private void MoveFiles(String source, String destination, bool CopyInstead) {
             if (!Directory.Exists(source)) {
                 log.Error("MoveFiles: Source location not found");
                 throw new DirectoryNotFoundException("Source directory could not be found: " + source);
             }else if (!Directory.Exists(destination)) {
                 Directory.CreateDirectory(destination);
-            }
-
-            if (!IsDirectoryEmpty(destination)) {
-                var dialog = MessageBox.Show("Profile folder already contains profile data, do you wish to continue?", "Existing Files in Destination",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                log.Error("Destination directory already contains profile data.");
-                if (dialog != DialogResult.Yes) {
-                    return;
-                }
             }
             DirectoryInfo root = new DirectoryInfo(source);
             DirectoryInfo dest = new DirectoryInfo(destination);
@@ -285,11 +240,11 @@ namespace GameSaveSwapper {
                 string temppath = Path.Combine(destination, file.Name);
 
                 file.CopyTo(temppath, false);
-                file.Delete();
+                if(!CopyInstead) file.Delete();
             }
             foreach (DirectoryInfo subdir in dirs) {
                 string temppath = Path.Combine(destination, subdir.Name);
-                MoveFiles(subdir.FullName, temppath);
+                MoveFiles(subdir.FullName, temppath, CopyInstead);
             }
             /*
             System.IO.FileInfo[] files = null;
@@ -466,7 +421,15 @@ namespace GameSaveSwapper {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }*/
-            MoveFiles(game.save_path,profile.storeLocation);
+            if (!IsDirectoryEmpty(profile.storeLocation)) {
+                var dialog = MessageBox.Show("Profile folder already contains profile data, do you wish to continue? (This will overwrite existing files!)", "Existing Files in Destination",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                log.Error("Destination directory (" + profile.storeLocation + ") already contains profile data.");
+                if (dialog != DialogResult.Yes) {
+                    return;
+                }
+            }
+            MoveFiles(game.save_path,profile.storeLocation,false);
             LoadGroupsToList();
         }
         private void openProfileDirectoryToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -502,6 +465,10 @@ namespace GameSaveSwapper {
 
         private void openLogToolStripMenuItem_Click(object sender, EventArgs e) {
             System.Diagnostics.Process.Start(Path.Combine(SAVEPATH,"swapper.log"));
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e) {
+            new Settings().ShowDialog();
         }
     }
 }
