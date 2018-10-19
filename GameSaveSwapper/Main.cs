@@ -62,7 +62,14 @@ namespace GameSaveSwapper {
             if (!Directory.Exists(savepath)) {
                 Directory.CreateDirectory(savepath);
             }
-
+            foreach (Profile p in this.profiles) {
+                if (p.name.ToLower().Equals(game_input.Text.ToLower())) {
+                    MessageBox.Show("There is another profile that already contains that name.", "Profile Already Exists",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    log.Error("Profile " + game_input.Name + " has been already added");
+                    return;
+                }
+            }
 
             Profile profile = new Profile(game_input.Text,savepath,game_choose.SelectedItem.ToString());
             log.Info("ProfileAdd: Created Profile " + profile.name + " for game " + profile.game);
@@ -330,7 +337,6 @@ namespace GameSaveSwapper {
             var item = listView1.FocusedItem;
 
             Profile profile = convertToProfile(item);
-            Debug.WriteLine("New Profile: " + profile.name);
             bool emptySuccess = EmptyGameSaveFolder(profile.game);
             if (emptySuccess) {
                 LoadGameSave(profile);

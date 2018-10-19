@@ -104,7 +104,6 @@ namespace GameSaveSwapper {
             }
 
             foreach (Game game in this.games) {
-                Debug.WriteLine(game.Name + "|" + textBox1.Text);
                 if (game.Name.ToLower().Equals(textBox1.Text.ToLower())) {
                     MessageBox.Show("There is another game that already contains that name.", "Game Already Exists",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
