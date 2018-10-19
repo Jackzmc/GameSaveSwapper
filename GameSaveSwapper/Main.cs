@@ -49,10 +49,12 @@ namespace GameSaveSwapper {
         
         private void button2_Click(object sender, EventArgs e) {
             if (game_input.Text == "") {
-                MessageBox.Show("Please enter a profile name","Missing Profile Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                log.Error("ProfileAdd: Missing Profile Name");
+                MessageBox.Show("Please enter a profile name","Missing Profile Name", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }else if (game_choose.SelectedText == null) {
-                MessageBox.Show("Please select a game for this profile","Missing Profile Game",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                log.Error("ProfileAdd: Missing game");
+                MessageBox.Show("Please select a game for this profile","Missing Profile Game",MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -63,7 +65,7 @@ namespace GameSaveSwapper {
 
 
             Profile profile = new Profile(game_input.Text,savepath,game_choose.SelectedItem.ToString());
-
+            log.Info("ProfileAdd: Created Profile " + profile.name + " for game " + profile.game);
             this.profiles.Add(profile);
             ListViewItem listItem = new ListViewItem();
 
@@ -74,6 +76,7 @@ namespace GameSaveSwapper {
             listItem.Text = profile.name;
             listView1.Items.Add(listItem);
             SaveProfiles(this.profiles);
+
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -261,13 +264,34 @@ namespace GameSaveSwapper {
         private void MoveFiles(String source, String destination) {
             if (!Directory.Exists(source)) {
                 log.Error("MoveFiles: Source location not found");
-                throw new DirectoryNotFoundException();
+                throw new DirectoryNotFoundException("Source directory could not be found: " + source);
             }else if (!Directory.Exists(destination)) {
-                log.Error("MoveFiles: Destination location not found");
-                throw new DirectoryNotFoundException();
+                Directory.CreateDirectory(destination);
+            }
+
+            if (!IsDirectoryEmpty(destination)) {
+                var dialog = MessageBox.Show("Profile folder already contains profile data, do you wish to continue?", "Existing Files in Destination",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                log.Error("Destination directory already contains profile data.");
+                if (dialog != DialogResult.Yes) {
+                    return;
+                }
             }
             DirectoryInfo root = new DirectoryInfo(source);
             DirectoryInfo dest = new DirectoryInfo(destination);
+            DirectoryInfo[] dirs = root.GetDirectories();
+            FileInfo[] files = root.GetFiles();
+            foreach (FileInfo file in files) {
+                string temppath = Path.Combine(destination, file.Name);
+
+                file.CopyTo(temppath, false);
+                file.Delete();
+            }
+            foreach (DirectoryInfo subdir in dirs) {
+                string temppath = Path.Combine(destination, subdir.Name);
+                MoveFiles(subdir.FullName, temppath);
+            }
+            /*
             System.IO.FileInfo[] files = null;
             System.IO.DirectoryInfo[] subDirs = null;
             string[] entries = null;
@@ -286,7 +310,10 @@ namespace GameSaveSwapper {
             foreach (String str in entries) {
                 output.Add(str.Substring(Path.GetPathRoot(str).Length));
             }
-            log.Debug(String.Join(",", output.ToArray()));
+            log.Debug(String.Join(",", output.ToArray()));*/
+        }
+        private bool IsDirectoryEmpty(string path) {
+            return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 
         private void listView1_MouseClick(object sender, MouseEventArgs e) {
@@ -294,10 +321,8 @@ namespace GameSaveSwapper {
                 if (listView1.FocusedItem.Bounds.Contains(e.Location)) {
                     var item = listView1.FocusedItem;
                     Game game = findGame(item.Group.Header); //todo: optimize, have a global list of games instead of fetching
-                    Debug.WriteLine(game);
                     if (game != null && game.Name != null) {
                         var swapFile = Path.Combine(game.save_path, ".swapper");
-                        Debug.WriteLine(File.Exists(swapFile));
                         if (!File.Exists(swapFile)) {
                             moveExistingSaveHereToolStripMenuItem.Enabled = true;
                         } else {
@@ -391,6 +416,7 @@ namespace GameSaveSwapper {
                     this.profiles.RemoveAt(i);
                 }
             }
+           
             /* Gets a list of profiles from global
              * Finds profile and removes it from list
              * Saves profiles to disk
