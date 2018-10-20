@@ -92,7 +92,7 @@ namespace GameSaveSwapper {
 
         private void gameSetupToolStripMenuItem_Click(object sender, EventArgs e) {
             //this.Hide();
-            new GameManagement().Show();
+            new GameManagement().ShowDialog();
         }
 
         //internal methods
@@ -183,10 +183,8 @@ namespace GameSaveSwapper {
                         MessageBox.Show(
                             "You can use 'Move Existing Saves Here' to set where the game's current save files should go to.", "Tip",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } else {
-                        //delete
-                        NotImplemented();
                     }
+                    //continue
                 } else {
                     return true;
                 }
@@ -253,26 +251,6 @@ namespace GameSaveSwapper {
                 string temppath = Path.Combine(destination, subdir.Name);
                 MoveFiles(subdir.FullName, temppath, CopyInstead);
             }
-            /*
-            System.IO.FileInfo[] files = null;
-            System.IO.DirectoryInfo[] subDirs = null;
-            string[] entries = null;
-            //check if dest exists, empty?
-            try {
-                entries = Directory.GetFileSystemEntries(source, "*", SearchOption.AllDirectories);
-                
-                //Directory.Move(source,destination);
-            } catch (UnauthorizedAccessException e) {
-                log.Error("MoveFiles: " + e.Message);
-            } catch (System.IO.DirectoryNotFoundException e) {
-                log.Error(e.Message);
-            }
-
-            List<String> output = new List<string>();
-            foreach (String str in entries) {
-                output.Add(str.Substring(Path.GetPathRoot(str).Length));
-            }
-            log.Debug(String.Join(",", output.ToArray()));*/
         }
         public bool IsDirectoryEmpty(string path) {
             return !Directory.EnumerateFileSystemEntries(path).Any();
@@ -363,11 +341,23 @@ namespace GameSaveSwapper {
             MessageBox.Show("No exe has been specified for this game.", "Missing EXE Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
-            NotImplemented();
-        }
-
-        private void changePathToolStripMenuItem_Click(object sender, EventArgs e) {
-            NotImplemented();
+            var item = listView1.FocusedItem;
+            var renamer = new RenameForm();
+            renamer.setText(item.SubItems[0].Text);
+            var result = renamer.ShowDialog();
+            
+            
+            for (var i = 0; i < this.profiles.Count; i++) {
+                if (this.profiles[i].name.Equals(item.SubItems[0].Text)) {
+                    this.profiles[i].name = renamer.getText();
+                    SaveProfiles(this.profiles);
+                    LoadGroupsToList();
+                    return;
+                }
+            }
+            log.Error("RenameProfile: Could not find profile to rename");
+            MessageBox.Show("Could not find a profile to rename", "Missing Profile", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -475,6 +465,10 @@ namespace GameSaveSwapper {
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e) {
             new Settings().ShowDialog();
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+
         }
     }
 }

@@ -18,12 +18,11 @@ namespace GameSaveSwapper {
     public partial class GameManagement : Form {
         
         public GameManagement() {
-            this.main = (Main) Application.OpenForms[0];
             InitializeComponent();
         }
         
         //variables
-        private Main main;
+        private static Main main = (Main)Application.OpenForms[0];
         private static readonly ILog log = LogManager.GetLogger("gamemanagement");
         static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
         private List<Game> games;
@@ -37,14 +36,27 @@ namespace GameSaveSwapper {
         private void GameManagement_FormClosing(object sender, FormClosingEventArgs e) {
             main.reloadGameChooser();
         }
-        //click events
-        private void browsesaveloc_Click(object sender, EventArgs e) { //browse button
-            var dialog = new FolderBrowserDialog {
+
+        private FolderBrowserDialog OpenSaveBrowser() {
+            return new FolderBrowserDialog {
                 Description = "Game Save File Directory",
 
                 //TODO: match game name == predefined locations, or steam?
                 ShowNewFolderButton = true
             };
+        }
+
+        private OpenFileDialog OpenExeBrowser() {
+            return new OpenFileDialog() {
+                CheckFileExists = true,
+                Filter = "Executables|*.exe",
+                InitialDirectory = @"C:/Program Files (x86)/Steam",
+                Title = "Choose game .exe"
+            };
+        }
+        //click events
+        private void browsesaveloc_Click(object sender, EventArgs e) { //browse button
+            var dialog = OpenSaveBrowser();
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK) {
                 //gamepath = dialog.SelectedPath.ToString();
@@ -52,12 +64,7 @@ namespace GameSaveSwapper {
             }
         }
         private void browse_exe_Click(object sender, EventArgs e) {
-            var dialog = new OpenFileDialog() {
-                CheckFileExists = true,
-                Filter = "Executables|*.exe",
-                InitialDirectory = @"C:/Program Files (x86)/Steam",
-                Title = "Choose game .exe"
-            };
+            var dialog = OpenExeBrowser();
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK) {
                 //exepath = dialog.FileName;
@@ -132,6 +139,7 @@ namespace GameSaveSwapper {
                 newList.Name = game.Name;
                 newList.Text = game.Name;
                 newList.SubItems.Add(new ListViewSubItem().Text = game.save_path);
+                newList.SubItems.Add(new ListViewSubItem().Text = game.exePath);
                 list.Items.Add(newList);
             
             }
@@ -182,11 +190,64 @@ namespace GameSaveSwapper {
         }
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
-            main.NotImplemented();
+            var item = listView1.FocusedItem;
+
+            var renamer = new RenameForm();
+            renamer.setText(item.SubItems[0].Text);
+            var result = renamer.ShowDialog();
+            if(result == DialogResult.OK) {
+                
+                for (var i = 0; i < this.games.Count; i++) {
+                    if (this.games[i].Name.Equals(item.SubItems[0].Text)) {
+                        this.games[i].Name = renamer.getText();
+                        SaveGames(this.games);
+                        LoadGamesList(listView1); //refresh list
+                        return;
+                    }
+                }
+                log.Error("Rename: Could not find game to rename");
+                MessageBox.Show("Could not find the game to rename", "Missing Game", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void changeSavePathToolStripMenuItem_Click(object sender, EventArgs e) {
-            main.NotImplemented();
+            var dialog = OpenSaveBrowser();
+            var result = dialog.ShowDialog();
+
+            if (result == DialogResult.OK) {
+                var item = listView1.FocusedItem;
+                for (var i = 0; i < this.games.Count; i++) {
+                    if (this.games[i].Name.Equals(item.SubItems[0].Text)) {
+                        this.games[i].save_path = dialog.SelectedPath;
+                        SaveGames(this.games);
+                        LoadGamesList(listView1); //refresh list
+                        return;
+                    }
+                }
+            }
+            log.Error("ChoosePath: Could not find game to change path for");
+            MessageBox.Show("Could not find the game to change the path for", "Missing Game", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
+        private void chooseEXEToolStripMenuItem_Click(object sender, EventArgs e) {
+            var dialog = OpenExeBrowser();
+            var result = dialog.ShowDialog();
+
+            if (result == DialogResult.OK) {
+                var item = listView1.FocusedItem;
+                for (var i = 0; i < this.games.Count; i++) {
+                    if (this.games[i].Name.Equals(item.SubItems[0].Text)) {
+                        this.games[i].exePath = dialog.FileName;
+                        SaveGames(this.games);
+                        LoadGamesList(listView1); //refresh list
+                        return;
+                    }
+                }
+            }
+            log.Error("ChooseExe: Could not find game to change path for");
+            MessageBox.Show("Could not find the game to change the path for", "Missing Game", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -211,10 +272,6 @@ namespace GameSaveSwapper {
             //check deleteToolStripMenuItem_Click on main to see what it does
             SaveGames(this.games);
             LoadGamesList(listView1); 
-        }
-
-        private void chooseEXEToolStripMenuItem_Click(object sender, EventArgs e) {
-            main.NotImplemented();
         }
 
         private void openSaveDirectoryToolStripMenuItem_Click(object sender, EventArgs e) {

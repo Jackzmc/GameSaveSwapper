@@ -34,7 +34,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveExistingSaveHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.openProfileDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,7 +100,6 @@
             this.toolStripSeparator1,
             this.renameToolStripMenuItem,
             this.moveExistingSaveHereToolStripMenuItem,
-            this.changePathToolStripMenuItem,
             this.toolStripSeparator2,
             this.openProfileDirectoryToolStripMenuItem,
             this.deleteToolStripMenuItem});
@@ -142,13 +140,6 @@
             this.moveExistingSaveHereToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.moveExistingSaveHereToolStripMenuItem.Text = "Move Existing Save Here";
             this.moveExistingSaveHereToolStripMenuItem.Click += new System.EventHandler(this.moveExistingSaveHereToolStripMenuItem_Click);
-            // 
-            // changePathToolStripMenuItem
-            // 
-            this.changePathToolStripMenuItem.Name = "changePathToolStripMenuItem";
-            this.changePathToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.changePathToolStripMenuItem.Text = "Change Path";
-            this.changePathToolStripMenuItem.Click += new System.EventHandler(this.changePathToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -229,6 +220,7 @@
             this.menuStrip1.Size = new System.Drawing.Size(661, 24);
             this.menuStrip1.TabIndex = 17;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // fileToolStripMenuItem
             // 
@@ -250,7 +242,7 @@
             // 
             this.reloadProfilesToolStripMenuItem.Name = "reloadProfilesToolStripMenuItem";
             this.reloadProfilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reloadProfilesToolStripMenuItem.Text = "Reload Profiles";
+            this.reloadProfilesToolStripMenuItem.Text = "Reload";
             this.reloadProfilesToolStripMenuItem.Click += new System.EventHandler(this.reloadProfilesToolStripMenuItem_Click);
             // 
             // gameSetupToolStripMenuItem
@@ -341,7 +333,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem changePathToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.TextBox game_input;
