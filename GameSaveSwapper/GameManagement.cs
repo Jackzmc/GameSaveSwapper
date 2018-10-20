@@ -252,26 +252,31 @@ namespace GameSaveSwapper {
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
             var item = listView1.FocusedItem;
-            for (var i = 0; i < this.games.Count; i++) {
-                if (this.games[i].Name.Equals(item.SubItems[0].Text)) {
-                    String gamesavepath = Path.Combine(SAVEPATH, this.games[i].Name);
-                    if (main.IsDirectoryEmpty(gamesavepath)) {
-                        Directory.Delete(gamesavepath);
-                    } else {
-                        var result = MessageBox.Show(
-                            "There are profiles for this game. Please delete all profiles first before deleting the game.",
-                            "Existing Profiles", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        log.Error("GameDelete: Existing Profiles in location");
-                        return;
+            var deleteResult = MessageBox.Show("Are you sure you want to delete this game?", "Confirm Deletion",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (deleteResult == DialogResult.Yes) {
+                for (var i = 0; i < this.games.Count; i++) {
+                    if (this.games[i].Name.Equals(item.SubItems[0].Text)) {
+                        String gamesavepath = Path.Combine(SAVEPATH, this.games[i].Name);
+                        if (main.IsDirectoryEmpty(gamesavepath)) {
+                            Directory.Delete(gamesavepath);
+                        } else {
+                            var result = MessageBox.Show(
+                                "There are profiles for this game. Please delete all profiles first before deleting the game.",
+                                "Existing Profiles", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            log.Error("GameDelete: Existing Profiles in location");
+                            return;
+                        }
+
+                        this.games.RemoveAt(i);
                     }
-                    this.games.RemoveAt(i);
                 }
+                //TODO: check for folder and if has no files, delete
+
+                //check deleteToolStripMenuItem_Click on main to see what it does
+                SaveGames(this.games);
+                LoadGamesList(listView1);
             }
-            //TODO: check for folder and if has no files, delete
-           
-            //check deleteToolStripMenuItem_Click on main to see what it does
-            SaveGames(this.games);
-            LoadGamesList(listView1); 
         }
 
         private void openSaveDirectoryToolStripMenuItem_Click(object sender, EventArgs e) {
