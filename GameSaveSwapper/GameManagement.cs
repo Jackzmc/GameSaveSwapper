@@ -22,6 +22,7 @@ namespace GameSaveSwapper {
         }
         
         //variables
+        public bool IsInitial = false;
         private static Main main = (Main)Application.OpenForms[0];
         private static readonly ILog log = LogManager.GetLogger("gamemanagement");
         static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
@@ -136,6 +137,7 @@ namespace GameSaveSwapper {
             Game[] games = this.games.ToArray();
             foreach (Game game in games) {
                 var newList = new ListViewItem();
+                newList.Font = new Font(newList.Font, FontStyle.Regular);
                 newList.Name = game.Name;
                 newList.Text = game.Name;
                 newList.SubItems.Add(new ListViewSubItem().Text = game.save_path);
@@ -287,6 +289,14 @@ namespace GameSaveSwapper {
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             Process.Start("https://github.com/Jackzmc/GameSaveSwapper/wiki/Known-Supported-Games");
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e) {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e) {
+
         }
     }
 

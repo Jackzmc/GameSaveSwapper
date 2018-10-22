@@ -20,11 +20,13 @@ namespace GameSaveSwapper {
     public partial class Main : Form {
         //TODO is on github projects
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
+        static readonly string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
         private List<Profile> profiles;
 
         public Main() {
             log4net.Config.XmlConfigurator.Configure();
+            
+
             InitializeComponent();
         }
         //events
@@ -35,6 +37,12 @@ namespace GameSaveSwapper {
             if (!File.Exists(gamesJSON)) System.IO.File.WriteAllText(gamesJSON, "[]");
             if (!File.Exists(profilesJSON)) System.IO.File.WriteAllText(profilesJSON, "[]");
             this.profiles = GetProfiles();
+            if (this.profiles.Count == 0) {
+                MessageBox.Show("This is your first time using GameSaveSwapper, do you want to add a new game?", "First Time Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var game = new GameManagement();
+                game.IsInitial = true;
+                game.ShowDialog();
+            } 
 
             reloadGameChooser(); //reload the combobox
              //Load group to listview list
@@ -173,7 +181,9 @@ namespace GameSaveSwapper {
 
         private bool EmptyGameSaveFolder(Game game) {
             var swapFile = Path.Combine(game.save_path, ".swapper");
+            bool ignoreSwap = false;
             if (!File.Exists(swapFile)) {
+                Debug.WriteLine(IsDirectoryEmpty(game.save_path));
                 if (!IsDirectoryEmpty(game.save_path)) {
                     log.Warn("EmptyGameSaveFolder: Swap file not found");
                     var result = MessageBox.Show(
@@ -183,25 +193,31 @@ namespace GameSaveSwapper {
                         MessageBox.Show(
                             "You can use 'Move Existing Saves Here' to set where the game's current save files should go to.", "Tip",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return false;
+                    } else {
+                        ignoreSwap = true;
                     }
                     //continue
                 } else {
-                    return true;
+                    ignoreSwap = true;
                 }
             }
 
-            String swapperText = File.ReadAllText(swapFile);
-            Profile profile = findProfile(swapperText);
-            if (profile == null) {
-                log.Error("EmptyGameSaveFolder: Swapper Profile unknown");
-                var result = MessageBox.Show(
-                    "The game's save directory has a save for a profile that does not exist. Do you wish to continue & delete any save data? You can move the files using 'Move Existing Saves Here' on a profile to keep the data.","Unknown Swapper Profile",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                if (result != DialogResult.Yes) {
-                    return false;
+            if (!ignoreSwap) {
+                String swapperText = File.ReadAllText(swapFile);
+                Profile profile = findProfile(swapperText);
+                if (profile == null) {
+                    log.Error("EmptyGameSaveFolder: Swapper Profile unknown");
+                    var result = MessageBox.Show(
+                        "The game's save directory has a save for a profile that does not exist. Do you wish to continue & delete any save data? You can move the files using 'Move Existing Saves Here' on a profile to keep the data.",
+                        "Unknown Swapper Profile",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                    if (result != DialogResult.Yes) {
+                        return false;
+                    }
                 }
             }
-      
+
             log.Info("Empty save game folder");
             DirectoryInfo gameSaveDirectory = new DirectoryInfo(game.save_path);
             foreach (FileInfo file in gameSaveDirectory.GetFiles()) {
@@ -475,6 +491,37 @@ namespace GameSaveSwapper {
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
 
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            var gamemanager = new GameManagement();
+            gamemanager.ShowDialog();
+
+        }
+
+        private void openGameDirectoryToolStripMenuItem_Click(object sender, EventArgs e) {
+            var item = listView1.FocusedItem;
+            Profile profile = findProfile(item.SubItems[0].Text);
+            Game game = findGame(profile.group);
+
+            Process.Start(game.save_path);
+
+        }
+
+        private void game_input_TextChanged(object sender, EventArgs e) {
+
+        }
+
+        private void game_choose_SelectedIndexChanged(object sender, EventArgs e) {
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e) {
+
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e) {
+            new Main2().ShowDialog();
         }
     }
 }
