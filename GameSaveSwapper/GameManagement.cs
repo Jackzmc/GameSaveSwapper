@@ -25,7 +25,7 @@ namespace GameSaveSwapper {
         public bool IsInitial = false;
         private static Main main = (Main)Application.OpenForms[0];
         private static readonly ILog log = LogManager.GetLogger("gamemanagement");
-        static string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
+        private static readonly string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
         private List<Game> games;
 
         //misc events

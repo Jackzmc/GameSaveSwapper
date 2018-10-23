@@ -25,22 +25,19 @@ namespace GameSaveSwapper {
 
         public Main() {
             log4net.Config.XmlConfigurator.Configure();
-            
-
             InitializeComponent();
         }
         //events
         private void Setup_Load(object sender, EventArgs e) {
             //create files if dont exist
-            String gamesJSON = Path.Combine(SAVEPATH, "games.json");
-            String profilesJSON = Path.Combine(SAVEPATH, "profiles.json");
-            if (!File.Exists(gamesJSON)) System.IO.File.WriteAllText(gamesJSON, "[]");
-            if (!File.Exists(profilesJSON)) System.IO.File.WriteAllText(profilesJSON, "[]");
+            String gamesJson = Path.Combine(SAVEPATH, "games.json");
+            String profilesJson = Path.Combine(SAVEPATH, "profiles.json");
+            if (!File.Exists(gamesJson)) System.IO.File.WriteAllText(gamesJson, "[]");
+            if (!File.Exists(profilesJson)) System.IO.File.WriteAllText(profilesJson, "[]");
             this.profiles = GetProfiles();
             if (this.profiles.Count == 0) {
-                MessageBox.Show("This is your first time using GameSaveSwapper, do you want to add a new game?", "First Time Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                var game = new GameManagement();
-                game.IsInitial = true;
+                MessageBox.Show(strings.FirstTimeSetup_Content, strings.FirstTimeSetup_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var game = new GameManagement {IsInitial = true};
                 game.ShowDialog();
             } 
 
@@ -58,11 +55,11 @@ namespace GameSaveSwapper {
         private void button2_Click(object sender, EventArgs e) {
             if (game_input.Text == "") {
                 log.Error("ProfileAdd: Missing Profile Name");
-                MessageBox.Show("Please enter a profile name","Missing Profile Name", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(strings.ProfileAdd_ProvideName_Content,strings.ProfileAdd_ProvideName_Title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }else if (game_choose.SelectedText == null) {
                 log.Error("ProfileAdd: Missing game");
-                MessageBox.Show("Please select a game for this profile","Missing Profile Game",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(strings.ProfileAdd_ProvideGame_Content,strings.ProfileAdd_ProvideGame_Title,MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -72,7 +69,7 @@ namespace GameSaveSwapper {
             }
             foreach (Profile p in this.profiles) {
                 if (p.name.ToLower().Equals(game_input.Text.ToLower())) {
-                    MessageBox.Show("There is another profile that already contains that name.", "Profile Already Exists",
+                    MessageBox.Show(strings.AddProfile_ExistingName, strings.ProfileAdd_ExistingNameTitle,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     log.Error("Profile " + game_input.Name + " has been already added");
                     return;
@@ -82,9 +79,8 @@ namespace GameSaveSwapper {
             Profile profile = new Profile(game_input.Text,savepath,game_choose.SelectedItem.ToString());
             log.Info("ProfileAdd: Created Profile " + profile.name + " for game " + profile.game);
             this.profiles.Add(profile);
-            ListViewItem listItem = new ListViewItem();
+            ListViewItem listItem = new ListViewItem {Group = GetGameGroup(profile.@group)};
 
-            listItem.Group = GetGameGroup(profile.group);
             listItem.SubItems.Add(new ListViewSubItem().Text = profile.storeLocation);
 
             listItem.Name = profile.name;
@@ -187,11 +183,11 @@ namespace GameSaveSwapper {
                 if (!IsDirectoryEmpty(game.save_path)) {
                     log.Warn("EmptyGameSaveFolder: Swap file not found");
                     var result = MessageBox.Show(
-                        "There is save files for this game that do not belong to a certain profile. You can move these by using the 'Move Existing Saves Here' on a profile. \nDo you want to continue & delete this save?",
-                        "First Time Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        strings.EmptySaves_ExistingFiles_Content,
+                        strings.FirstTimeSetup_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.No) {
                         MessageBox.Show(
-                            "You can use 'Move Existing Saves Here' to set where the game's current save files should go to.", "Tip",
+                            strings.EmptySaves_ExistingFiles_TIP, "Tip",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return false;
                     } else {
@@ -209,8 +205,8 @@ namespace GameSaveSwapper {
                 if (profile == null) {
                     log.Error("EmptyGameSaveFolder: Swapper Profile unknown");
                     var result = MessageBox.Show(
-                        "The game's save directory has a save for a profile that does not exist. Do you wish to continue & delete any save data? You can move the files using 'Move Existing Saves Here' on a profile to keep the data.",
-                        "Unknown Swapper Profile",
+                        strings.EmptySaves_UnknownProfile_Content,
+                        strings.EmptySaves_UnknownProfile_Title,
                         MessageBoxButtons.YesNo, MessageBoxIcon.Error);
                     if (result != DialogResult.Yes) {
                         return false;
@@ -307,7 +303,7 @@ namespace GameSaveSwapper {
             return null;
         }
         public void NotImplemented() {
-            MessageBox.Show("Feature not implemented");
+            MessageBox.Show(@"Feature not implemented");
         }
 
         public Profile convertToProfile(ListViewItem item) {
@@ -348,13 +344,13 @@ namespace GameSaveSwapper {
                         LoadGroupsToList();
                         Process.Start(profile.game.exePath); 
                     } else {
-                        MessageBox.Show("Failed to empty the game save directory.", "Empty Game Saves Failed",
+                        MessageBox.Show(strings.EmptySavesFailed_Content, strings.EmptySavesFailed_Title,
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     return;
                 }
             }
-            MessageBox.Show("No exe has been specified for this game.", "Missing EXE Path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(strings.PlayProfile_MissingExe_Content, strings.PlayProfile_MissingExe_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
             var item = listView1.FocusedItem;
@@ -372,13 +368,13 @@ namespace GameSaveSwapper {
                 }
             }
             log.Error("RenameProfile: Could not find profile to rename");
-            MessageBox.Show("Could not find a profile to rename", "Missing Profile", MessageBoxButtons.OK,
+            MessageBox.Show(strings.Rename_NoProfileFound_Content, strings.Rename_NoProfileFound_Title, MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
             var item = listView1.FocusedItem;
-            var deleteResult = MessageBox.Show("Are you sure you want to delete this profile?", "Confirm Deletion",
+            var deleteResult = MessageBox.Show(strings.DeleteProfileConfirm_Content, strings.DeleteProfileConfirm_Title,
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (deleteResult == DialogResult.Yes) {
                 for (var i = 0; i < this.profiles.Count; i++) {
@@ -388,8 +384,8 @@ namespace GameSaveSwapper {
                             Directory.Delete(this.profiles[i].storeLocation);
                         } else {
                             var result = MessageBox.Show(
-                                "There are files in the profile save location, do you wish to delete them? ",
-                                "Existing Files in Save Location", MessageBoxButtons.YesNoCancel,
+                                strings.DeleteProfileExisting_Content,
+                                strings.DeleteProfileExisting_Title, MessageBoxButtons.YesNoCancel,
                                 MessageBoxIcon.Warning);
                             if (result == DialogResult.Yes) {
                                 try {
@@ -440,7 +436,7 @@ namespace GameSaveSwapper {
                 return;
             }*/
             if (!IsDirectoryEmpty(profile.storeLocation)) {
-                var dialog = MessageBox.Show("Profile folder already contains profile data, do you wish to continue? (This will overwrite existing files!)", "Existing Files in Destination",
+                var dialog = MessageBox.Show(strings.MoveExisting_ExistingData_Content, strings.MoveExisting_ExistingData_Title,
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 log.Error("Destination directory (" + profile.storeLocation + ") already contains profile data.");
                 if (dialog != DialogResult.Yes) {

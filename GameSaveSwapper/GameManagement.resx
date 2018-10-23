@@ -1677,4 +1677,7 @@
         /AA=
 </value>
   </data>
+  <data name="Main_button2_Click_Please_enter_a_profile_name" xml:space="preserve">
+    <value>Please enter a profile name</value>
+  </data>
 </root>
