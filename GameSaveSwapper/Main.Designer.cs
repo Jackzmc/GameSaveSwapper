@@ -57,6 +57,7 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.game_add = new System.Windows.Forms.Button();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameaddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -243,7 +244,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
             this.reloadProfilesToolStripMenuItem,
-            this.testToolStripMenuItem});
+            this.testToolStripMenuItem,
+            this.gameaddToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -347,8 +349,15 @@
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.testToolStripMenuItem.Text = "test";
+            this.testToolStripMenuItem.Text = "Main2";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
+            // gameaddToolStripMenuItem
+            // 
+            this.gameaddToolStripMenuItem.Name = "gameaddToolStripMenuItem";
+            this.gameaddToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gameaddToolStripMenuItem.Text = "gameadd";
+            this.gameaddToolStripMenuItem.Click += new System.EventHandler(this.gameaddToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -414,5 +423,6 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.ToolStripMenuItem openGameDirectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gameaddToolStripMenuItem;
     }
 }

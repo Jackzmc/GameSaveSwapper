@@ -523,5 +523,9 @@ namespace GameSaveSwapper {
         private void testToolStripMenuItem_Click(object sender, EventArgs e) {
             new Main2().ShowDialog();
         }
+
+        private void gameaddToolStripMenuItem_Click(object sender, EventArgs e) {
+            new GameAdder().ShowDialog();
+        }
     }
 }

@@ -19,7 +19,11 @@ namespace GameSaveSwapper {
         }
 
         private void Main2_Load(object sender, EventArgs e) {
-
+            /* program.cs -> Functions.init();
+             * on load -> functions.getProfiles() -> has Game object
+             *
+             * load textbox and shit
+             */
         }
 
         private void label1_Click(object sender, EventArgs e) {

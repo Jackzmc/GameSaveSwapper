@@ -19,6 +19,7 @@ namespace GameSaveSwapper {
             this.exePath = exeLocation;
         }
 
+
         public ListViewItem getListViewItem() {
             var item = new ListViewItem();
             item.Name = this.Name;
