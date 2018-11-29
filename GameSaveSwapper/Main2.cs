@@ -20,7 +20,9 @@ namespace GameSaveSwapper {
         private static readonly string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
         private List<Game> games;
         private List<Profile> profiles;
-        private Game selectedGame;
+        private Game selectedGame
+        
+        private Functions functions;
 
         private void groupBox2_Enter(object sender, EventArgs e) {
 
@@ -33,6 +35,7 @@ namespace GameSaveSwapper {
              * load textbox and shit
              */
             //check if files are here:
+            functions = new Functions();
             String gamesJson = Path.Combine(SAVEPATH, "games.json");
             String profilesJson = Path.Combine(SAVEPATH, "profiles.json");
             if (!File.Exists(gamesJson)) System.IO.File.WriteAllText(gamesJson, "[]");
@@ -45,7 +48,7 @@ namespace GameSaveSwapper {
         }
 
         private void ReloadUI() {
-            var funcs = new Functions();
+            var funcs = functions;
             this.games = funcs.games;
             this.profiles = funcs.profiles;
             if (games.Count == 0) {
@@ -66,7 +69,7 @@ namespace GameSaveSwapper {
         }
 
         private void ReloadProfileUI(Game game) { //rename? also reloads game
-            var funcs = new Functions();
+            var funcs = functions;
             var activeProfile = GetActiveProfile(game);
             game_profileList.Items.Clear();
             foreach (Profile prof in profiles) {
@@ -89,7 +92,7 @@ namespace GameSaveSwapper {
         private Profile GetActiveProfile(Game game) {
             if (File.Exists(Path.Combine(game.savePath, ".swapper"))) {
                 string profile = System.IO.File.ReadAllText(Path.Combine(game.savePath, ".swapper"));
-                Profile p = new Functions().FindProfile(profile);
+                Profile p = functions.FindProfile(profile);
                 if (p != null && p.name != null) {
                     return p;
                 }else {
@@ -158,7 +161,7 @@ namespace GameSaveSwapper {
 
             if (!ignoreSwap) {
                 String swapperText = File.ReadAllText(swapFile);
-                Profile profile = new Functions().FindProfile(swapperText);
+                Profile profile = functions.FindProfile(swapperText);
                 if (profile == null) {
                     log.Error("EmptyGameSaveFolder: Swapper Profile unknown");
                     var result = MessageBox.Show(
@@ -247,7 +250,7 @@ namespace GameSaveSwapper {
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
-            var game = new Functions().FindGame(comboBox1.SelectedItem.ToString());
+            var game = functions.FindGame(comboBox1.SelectedItem.ToString());
             //SetGameChooser(true);
             selectedGame = game;
             label_gameName.Text = game.Name;
@@ -271,21 +274,31 @@ namespace GameSaveSwapper {
             //can be cancel, OK
             if (result == DialogResult.OK) {
                 this.games.Add(adder.Game);
-                new Functions().SaveGames(this.games);
+                functions.SaveGames(this.games);
                 ReloadUI();
             }
         }
 
         private void game_play_Click(object sender, EventArgs e) {
+            var selectedProfile = game_profileList.selectedItem;
+            var profile = functions.FindProfile(selectedProfile.SubItems[0]));
+            if(profile == null) {
+                MessageBox.Show("Selected profile does not seem to exist. Try recreating or try again.","Unknown Profile",MessageBoxButtons.OK,MessageBoxIcon.warning);
+                //possibly _attempt_ to fix
+                return;
+            }
             if (!string.IsNullOrEmpty(selectedGame.exePath)) {
                 EmptyGameSaveFolder(selectedGame);
-                LoadGameSave(GetActiveProfile(selectedGame));
+                LoadGameSave(profile);
                 Process.Start(selectedGame.exePath);
             } else {
                 var dialog = MessageBox.Show("No EXE Specified", "This game does not have an EXE specified, do you wish to add one?",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialog == DialogResult.Yes) {
-                    new Main().NotImplemented();
+                    var adder = new GameAdder();
+                    adder.game = selectedGame;
+                    adder.showDialog();
+                    //new Main().NotImplemented();
                 }
             }
         }
