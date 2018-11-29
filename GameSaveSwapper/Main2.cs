@@ -20,7 +20,7 @@ namespace GameSaveSwapper {
         private static readonly string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
         private List<Game> games;
         private List<Profile> profiles;
-        private Game selectedGame
+        private Game selectedGame;
         
         private Functions functions;
 
@@ -42,7 +42,6 @@ namespace GameSaveSwapper {
             if (!File.Exists(profilesJson)) System.IO.File.WriteAllText(profilesJson, "[]");
 
             ReloadUI();
-            game_profileList.FullRowSelect = true;
             version.Text = @"V" + Properties.Settings.Default.version;
             profile_stats.Text = "Loaded " + profiles.Count + " profiles";
         }
@@ -235,7 +234,13 @@ namespace GameSaveSwapper {
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e) {
-
+            if (game_profileList.SelectedItems.Count == 0) {
+                game_play.Enabled = false;
+                game_swap.Enabled = false;
+            } else {
+                game_play.Enabled = true;
+                game_swap.Enabled = true;
+            }
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e) {
@@ -281,17 +286,21 @@ namespace GameSaveSwapper {
         }
 
         private void game_play_Click(object sender, EventArgs e) {
-            var selectedProfile = game_profileList.selectedItem;
-            var profile = functions.FindProfile(selectedProfile.SubItems[0]));
+            if (game_profileList.SelectedItems.Count == 0) {
+                MessageBox.Show("Please select a profile on the left", "No Profile Selected", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+            var selectedProfile = game_profileList.SelectedItems[0];
+            var profile = functions.FindProfile(selectedProfile.SubItems[0].Text);
             if(profile == null) {
-                MessageBox.Show("Selected profile does not seem to exist. Try recreating or try again.","Unknown Profile",MessageBoxButtons.OK,MessageBoxIcon.warning);
+                MessageBox.Show("Selected profile does not seem to exist. Try recreating or try again.","Unknown Profile",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 //possibly _attempt_ to fix
                 return;
             }
             if (!string.IsNullOrEmpty(selectedGame.exePath)) {
                 EmptyGameSaveFolder(selectedGame);
                 LoadGameSave(profile);
-                LoadGameSave(GetActiveProfile(selectedGame));
                 log.Debug($"Launch Game {selectedGame.Name}: {selectedGame.exePath}");
                 Process.Start(selectedGame.exePath);
             } else {
@@ -300,14 +309,19 @@ namespace GameSaveSwapper {
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialog == DialogResult.Yes) {
                     var adder = new GameAdder();
-                    adder.game = selectedGame;
-                    adder.showDialog();
+                    adder.Game = selectedGame;
+                    adder.ShowDialog();
                     //new Main().NotImplemented();
                 }
             }
         }
 
         private void game_swap_Click(object sender, EventArgs e) {
+            if (game_profileList.SelectedItems.Count == 0) {
+                MessageBox.Show("Please select a profile on the left", "No Profile Selected", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
             EmptyGameSaveFolder(selectedGame);
             LoadGameSave(GetActiveProfile(selectedGame));
         }

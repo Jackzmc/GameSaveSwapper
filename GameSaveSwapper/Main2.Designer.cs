@@ -94,6 +94,7 @@
             // 
             // game_swap
             // 
+            this.game_swap.Enabled = false;
             this.game_swap.Location = new System.Drawing.Point(183, 561);
             this.game_swap.Name = "game_swap";
             this.game_swap.Size = new System.Drawing.Size(188, 34);
@@ -144,7 +145,9 @@
             this.col_size,
             this.col_lastPlayed,
             this.col_saveLoc});
+            this.game_profileList.FullRowSelect = true;
             this.game_profileList.Location = new System.Drawing.Point(22, 41);
+            this.game_profileList.MultiSelect = false;
             this.game_profileList.Name = "game_profileList";
             this.game_profileList.Size = new System.Drawing.Size(670, 648);
             this.game_profileList.Sorting = System.Windows.Forms.SortOrder.Ascending;
@@ -185,6 +188,7 @@
             // 
             // game_play
             // 
+            this.game_play.Enabled = false;
             this.game_play.Location = new System.Drawing.Point(377, 561);
             this.game_play.Name = "game_play";
             this.game_play.Size = new System.Drawing.Size(35, 35);
