@@ -48,6 +48,7 @@ namespace GameSaveSwapper {
             var funcs = new Functions();
             this.games = funcs.games;
             this.profiles = funcs.profiles;
+            log.Info($"Loaded {games.Count} games & {profiles.Count} profiles");
             if (games.Count == 0) {
                 ShowGameChooser(false);
             } else {
@@ -82,7 +83,7 @@ namespace GameSaveSwapper {
                 game_profileList.Items.Add(item);
             }
 
-            game_picBox.ImageLocation = "https://via.placeholder.com/150C/O";
+            game_picBox.ImageLocation = "https://placehold.it/462x377?text=No+Image";
             game_profile.Text = (activeProfile != null) ? activeProfile.name : "No Active Profile";
         }
 
@@ -280,9 +281,11 @@ namespace GameSaveSwapper {
             if (!string.IsNullOrEmpty(selectedGame.exePath)) {
                 EmptyGameSaveFolder(selectedGame);
                 LoadGameSave(GetActiveProfile(selectedGame));
+                log.Debug($"Launch Game {selectedGame.Name}: {selectedGame.exePath}");
                 Process.Start(selectedGame.exePath);
             } else {
-                var dialog = MessageBox.Show("No EXE Specified", "This game does not have an EXE specified, do you wish to add one?",
+                log.Debug($"Game {selectedGame.Name} has no exe, prompting");
+                var dialog = MessageBox.Show("This game does not have an EXE specified, do you wish to add one?","No EXE Specified",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialog == DialogResult.Yes) {
                     new Main().NotImplemented();

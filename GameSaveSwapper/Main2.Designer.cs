@@ -66,7 +66,7 @@
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(214, 19);
+            this.comboBox1.Location = new System.Drawing.Point(244, 19);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(168, 21);
             this.comboBox1.TabIndex = 1;
@@ -96,7 +96,7 @@
             // 
             this.game_swap.Location = new System.Drawing.Point(183, 561);
             this.game_swap.Name = "game_swap";
-            this.game_swap.Size = new System.Drawing.Size(168, 34);
+            this.game_swap.Size = new System.Drawing.Size(188, 34);
             this.game_swap.TabIndex = 4;
             this.game_swap.Text = "Swap";
             this.game_swap.UseVisualStyleBackColor = true;
@@ -104,7 +104,7 @@
             // 
             // settings_btn
             // 
-            this.settings_btn.Location = new System.Drawing.Point(22, 691);
+            this.settings_btn.Location = new System.Drawing.Point(22, 666);
             this.settings_btn.Name = "settings_btn";
             this.settings_btn.Size = new System.Drawing.Size(83, 23);
             this.settings_btn.TabIndex = 5;
@@ -113,12 +113,14 @@
             // 
             // version
             // 
+            this.version.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.version.AutoSize = true;
-            this.version.Location = new System.Drawing.Point(532, 701);
+            this.version.Location = new System.Drawing.Point(571, 712);
             this.version.Name = "version";
-            this.version.Size = new System.Drawing.Size(80, 13);
+            this.version.Size = new System.Drawing.Size(74, 13);
             this.version.TabIndex = 6;
-            this.version.Text = "V1.3.5.236.242";
+            this.version.Text = "V1.53.562.5.2";
+            this.version.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // game_profile
             // 
@@ -144,7 +146,7 @@
             this.col_saveLoc});
             this.game_profileList.Location = new System.Drawing.Point(22, 41);
             this.game_profileList.Name = "game_profileList";
-            this.game_profileList.Size = new System.Drawing.Size(666, 648);
+            this.game_profileList.Size = new System.Drawing.Size(670, 648);
             this.game_profileList.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.game_profileList.TabIndex = 1;
             this.game_profileList.UseCompatibleStateImageBehavior = false;
@@ -165,7 +167,7 @@
             // col_lastPlayed
             // 
             this.col_lastPlayed.Text = "Last Played";
-            this.col_lastPlayed.Width = 107;
+            this.col_lastPlayed.Width = 119;
             // 
             // col_saveLoc
             // 
@@ -183,7 +185,7 @@
             // 
             // game_play
             // 
-            this.game_play.Location = new System.Drawing.Point(357, 561);
+            this.game_play.Location = new System.Drawing.Point(377, 561);
             this.game_play.Name = "game_play";
             this.game_play.Size = new System.Drawing.Size(35, 35);
             this.game_play.TabIndex = 7;
@@ -200,9 +202,9 @@
             // game_picBox
             // 
             this.game_picBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("game_picBox.InitialImage")));
-            this.game_picBox.Location = new System.Drawing.Point(54, 137);
+            this.game_picBox.Location = new System.Drawing.Point(78, 137);
             this.game_picBox.Name = "game_picBox";
-            this.game_picBox.Size = new System.Drawing.Size(462, 377);
+            this.game_picBox.Size = new System.Drawing.Size(463, 377);
             this.game_picBox.TabIndex = 8;
             this.game_picBox.TabStop = false;
             // 
@@ -210,11 +212,12 @@
             // 
             this.label_gameName.AutoSize = true;
             this.label_gameName.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_gameName.Location = new System.Drawing.Point(153, 59);
+            this.label_gameName.Location = new System.Drawing.Point(209, 59);
             this.label_gameName.Name = "label_gameName";
             this.label_gameName.Size = new System.Drawing.Size(310, 30);
             this.label_gameName.TabIndex = 9;
             this.label_gameName.Text = "Minecraft 2.0 Ultimate Edition";
+            this.label_gameName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // splitContainer1
             // 
@@ -250,7 +253,7 @@
             // 
             // legacy_btn
             // 
-            this.legacy_btn.Location = new System.Drawing.Point(111, 691);
+            this.legacy_btn.Location = new System.Drawing.Point(111, 666);
             this.legacy_btn.Name = "legacy_btn";
             this.legacy_btn.Size = new System.Drawing.Size(83, 23);
             this.legacy_btn.TabIndex = 10;
