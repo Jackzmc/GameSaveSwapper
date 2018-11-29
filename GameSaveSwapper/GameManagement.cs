@@ -23,7 +23,7 @@ namespace GameSaveSwapper {
         
         //variables
         public bool IsInitial = false;
-        private static Main main = (Main)Application.OpenForms[0];
+        private static Main main = new Main();
         private static readonly ILog log = LogManager.GetLogger("gamemanagement");
         private static readonly string SAVEPATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GameSaveSwapper");
         private List<Game> games;
@@ -123,7 +123,7 @@ namespace GameSaveSwapper {
 
             Game newGame = new Game(textBox1.Text, exepath, gamepath);
             this.games.Add(newGame);
-            this.listView1.Items.Add(newGame.getListViewItem());
+            this.listView1.Items.Add(newGame.GetListViewItem());
             textBox1.Text = "";
             gamepath = null;
             exepath = null;

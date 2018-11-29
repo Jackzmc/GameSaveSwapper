@@ -47,18 +47,28 @@ namespace GameSaveSwapper {
 
         //internal
         private List<Game> LoadGames() {
-            String json = System.IO.File.ReadAllText(Path.Combine(Savepath, "games.json"));
+            String json = File.ReadAllText(Path.Combine(Savepath, "games.json"));
             return JsonConvert.DeserializeObject<List<Game>>(json);
         }
 
         private List<Profile> LoadProfiles() {
-            String json = System.IO.File.ReadAllText(Path.Combine(Savepath, "profiles.json"));
+            String json = File.ReadAllText(Path.Combine(Savepath, "profiles.json"));
             return JsonConvert.DeserializeObject<List<Profile>>(json);
         }
         
         private void SaveObject(List<dynamic> objs,String Filename) {
             var json = JsonConvert.SerializeObject(objs);
-            System.IO.File.WriteAllText(Path.Combine(Savepath, Filename + ".json"), json);
+            File.WriteAllText(Path.Combine(Savepath, Filename + ".json"), json);
+        }
+
+        public String BytesToString(long byteCount) {
+            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
+            if (byteCount == 0)
+                return "0" + suf[0];
+            long bytes = Math.Abs(byteCount);
+            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
     }
 }

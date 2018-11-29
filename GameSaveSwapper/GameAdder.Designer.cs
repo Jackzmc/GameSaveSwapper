@@ -37,6 +37,7 @@
             this.btn_browse_save = new System.Windows.Forms.Button();
             this.btn_browse_exe = new System.Windows.Forms.Button();
             this.in_appid = new System.Windows.Forms.TextBox();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // in_name
@@ -160,11 +161,23 @@
             this.in_appid.Size = new System.Drawing.Size(100, 20);
             this.in_appid.TabIndex = 13;
             // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(140, 227);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(138, 13);
+            this.linkLabel2.TabIndex = 14;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "Legacy Game Management";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
             // GameAdder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 252);
+            this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.in_appid);
             this.Controls.Add(this.btn_browse_exe);
             this.Controls.Add(this.btn_browse_save);
@@ -205,5 +218,6 @@
         private System.Windows.Forms.Button btn_browse_save;
         private System.Windows.Forms.Button btn_browse_exe;
         private System.Windows.Forms.TextBox in_appid;
+        private System.Windows.Forms.LinkLabel linkLabel2;
     }
 }

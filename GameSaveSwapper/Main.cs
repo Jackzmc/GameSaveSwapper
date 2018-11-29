@@ -123,6 +123,7 @@ namespace GameSaveSwapper {
 
         private void LoadProfiles(ListView list,List<String> activeProfiles) {
             list.Items.Clear();
+            if (profiles == null) this.profiles = GetProfiles();
             foreach (Profile profile in this.profiles) {
                 var listitem = new ListViewItem();
                 var path = new ListViewSubItem();
@@ -289,6 +290,7 @@ namespace GameSaveSwapper {
         }
         //public methods
         public Profile findProfile(String name) {
+            if (profiles == null) return null;
             foreach (var profile in this.profiles) {
                 if (profile.name.Equals(name)) return profile;
             }
