@@ -114,7 +114,6 @@
             // 
             // version
             // 
-            this.version.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.version.AutoSize = true;
             this.version.Location = new System.Drawing.Point(571, 712);
             this.version.Name = "version";
