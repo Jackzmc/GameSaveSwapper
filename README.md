@@ -6,11 +6,11 @@ It is very alpha, but currently swapping _does_ work.
 Check the releases tab to download a compiled build.
 
 ### Getting started
-1. You will need to create a game, go to the **Game Management** menu option.
-2. Create a game,specifying the name and the save location. The EXE Location is *optional*
-3. Close that window, and you'll see the game is in the combolist at the bottom. 
-4. Type in the name of the profile and select the game
-5. Right click on the profile and choose **Play** or **Swap**
+1. You should be on a screen that says there is no games. Click on 'Add Game'
+2. Add in the name and where the game's save folder is. EXE & Steam option is OPTIONAL
+3. Click Add and it should now show up in the dropdown list on the right
+4. Add profiles on the left 
+5. Right click on profile or click on Swap/Play (swaps then launches exe)
    
 Your profile is created, except the program does not know currently what the game's current save belongs to, so you will need to right click on a save and click **Move Existing Save Here**. This will set the saves to be set for that profile.
 

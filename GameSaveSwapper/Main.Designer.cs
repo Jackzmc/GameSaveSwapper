@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.label1 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.ProfileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -34,12 +35,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveExistingSaveHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.openProfileDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openGameDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.game_input = new System.Windows.Forms.TextBox();
             this.game_choose = new System.Windows.Forms.ComboBox();
-            this.game_add = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -47,12 +48,16 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gameSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportIssueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.game_add = new System.Windows.Forms.Button();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameaddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -68,24 +73,35 @@
             // 
             // listView1
             // 
+            this.listView1.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.listView1.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
             this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView1.BackColor = System.Drawing.Color.White;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ProfileName,
             this.SavePath});
-            this.listView1.Location = new System.Drawing.Point(12, 27);
+            this.listView1.FullRowSelect = true;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listView1.HideSelection = false;
+            this.listView1.LabelEdit = true;
+            this.listView1.LabelWrap = false;
+            this.listView1.Location = new System.Drawing.Point(12, 25);
+            this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(637, 544);
+            this.listView1.Size = new System.Drawing.Size(637, 546);
+            this.listView1.Sorting = System.Windows.Forms.SortOrder.Descending;
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             this.listView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
             // 
             // ProfileName
             // 
             this.ProfileName.Text = "Profile Name";
-            this.ProfileName.Width = 133;
+            this.ProfileName.Width = 149;
             // 
             // SavePath
             // 
@@ -100,8 +116,9 @@
             this.toolStripSeparator1,
             this.renameToolStripMenuItem,
             this.moveExistingSaveHereToolStripMenuItem,
-            this.toolStripSeparator2,
             this.openProfileDirectoryToolStripMenuItem,
+            this.openGameDirectoryToolStripMenuItem,
+            this.toolStripSeparator2,
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(203, 170);
@@ -141,17 +158,24 @@
             this.moveExistingSaveHereToolStripMenuItem.Text = "Move Existing Save Here";
             this.moveExistingSaveHereToolStripMenuItem.Click += new System.EventHandler(this.moveExistingSaveHereToolStripMenuItem_Click);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
-            // 
             // openProfileDirectoryToolStripMenuItem
             // 
             this.openProfileDirectoryToolStripMenuItem.Name = "openProfileDirectoryToolStripMenuItem";
             this.openProfileDirectoryToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.openProfileDirectoryToolStripMenuItem.Text = "Open Profile Directory";
             this.openProfileDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openProfileDirectoryToolStripMenuItem_Click);
+            // 
+            // openGameDirectoryToolStripMenuItem
+            // 
+            this.openGameDirectoryToolStripMenuItem.Name = "openGameDirectoryToolStripMenuItem";
+            this.openGameDirectoryToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openGameDirectoryToolStripMenuItem.Text = "Open Game Directory";
+            this.openGameDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openGameDirectoryToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
             // 
             // deleteToolStripMenuItem
             // 
@@ -163,10 +187,12 @@
             // game_input
             // 
             this.game_input.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.game_input.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.game_input.Location = new System.Drawing.Point(12, 575);
             this.game_input.Name = "game_input";
-            this.game_input.Size = new System.Drawing.Size(226, 20);
+            this.game_input.Size = new System.Drawing.Size(229, 20);
             this.game_input.TabIndex = 10;
+            this.game_input.TextChanged += new System.EventHandler(this.game_input_TextChanged);
             // 
             // game_choose
             // 
@@ -174,19 +200,9 @@
             this.game_choose.FormattingEnabled = true;
             this.game_choose.Location = new System.Drawing.Point(247, 575);
             this.game_choose.Name = "game_choose";
-            this.game_choose.Size = new System.Drawing.Size(121, 21);
+            this.game_choose.Size = new System.Drawing.Size(134, 21);
             this.game_choose.TabIndex = 12;
-            // 
-            // game_add
-            // 
-            this.game_add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.game_add.Location = new System.Drawing.Point(374, 574);
-            this.game_add.Name = "game_add";
-            this.game_add.Size = new System.Drawing.Size(104, 23);
-            this.game_add.TabIndex = 13;
-            this.game_add.Text = "Add";
-            this.game_add.UseVisualStyleBackColor = true;
-            this.game_add.Click += new System.EventHandler(this.button2_Click);
+            this.game_choose.SelectedIndexChanged += new System.EventHandler(this.game_choose_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -217,6 +233,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.menuStrip1.Size = new System.Drawing.Size(661, 24);
             this.menuStrip1.TabIndex = 17;
             this.menuStrip1.Text = "menuStrip1";
@@ -226,7 +243,9 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
-            this.reloadProfilesToolStripMenuItem});
+            this.reloadProfilesToolStripMenuItem,
+            this.testToolStripMenuItem,
+            this.gameaddToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -248,9 +267,17 @@
             // gameSetupToolStripMenuItem
             // 
             this.gameSetupToolStripMenuItem.Name = "gameSetupToolStripMenuItem";
-            this.gameSetupToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
-            this.gameSetupToolStripMenuItem.Text = "Game Setup";
+            this.gameSetupToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
+            this.gameSetupToolStripMenuItem.Text = "Game Manager";
             this.gameSetupToolStripMenuItem.Click += new System.EventHandler(this.gameSetupToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Image = global::GameSaveSwapper.Properties.Resources.Settings_16x;
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -259,50 +286,86 @@
             this.reportIssueToolStripMenuItem,
             this.checkForUpdatesToolStripMenuItem,
             this.openLogToolStripMenuItem});
+            this.helpToolStripMenuItem.Image = global::GameSaveSwapper.Properties.Resources.Question_16x;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // documentationToolStripMenuItem
             // 
             this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.documentationToolStripMenuItem.Text = "Documentation";
             this.documentationToolStripMenuItem.Click += new System.EventHandler(this.documentationToolStripMenuItem_Click);
             // 
             // reportIssueToolStripMenuItem
             // 
             this.reportIssueToolStripMenuItem.Name = "reportIssueToolStripMenuItem";
-            this.reportIssueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reportIssueToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.reportIssueToolStripMenuItem.Text = "Report Issue";
             this.reportIssueToolStripMenuItem.Click += new System.EventHandler(this.reportIssueToolStripMenuItem_Click);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // openLogToolStripMenuItem
             // 
             this.openLogToolStripMenuItem.Name = "openLogToolStripMenuItem";
-            this.openLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openLogToolStripMenuItem.Text = "Open Log";
+            this.openLogToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.openLogToolStripMenuItem.Text = "Open Logs";
             this.openLogToolStripMenuItem.Click += new System.EventHandler(this.openLogToolStripMenuItem_Click);
             // 
-            // settingsToolStripMenuItem
+            // linkLabel1
             // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(321, 599);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(60, 13);
+            this.linkLabel1.TabIndex = 18;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "New Game";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // game_add
+            // 
+            this.game_add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.game_add.BackColor = System.Drawing.Color.White;
+            this.game_add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.game_add.Image = ((System.Drawing.Image)(resources.GetObject("game_add.Image")));
+            this.game_add.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.game_add.Location = new System.Drawing.Point(387, 575);
+            this.game_add.Name = "game_add";
+            this.game_add.Size = new System.Drawing.Size(104, 21);
+            this.game_add.TabIndex = 13;
+            this.game_add.Text = "Add Profile";
+            this.game_add.UseVisualStyleBackColor = false;
+            this.game_add.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.testToolStripMenuItem.Text = "Main2";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
+            // gameaddToolStripMenuItem
+            // 
+            this.gameaddToolStripMenuItem.Name = "gameaddToolStripMenuItem";
+            this.gameaddToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gameaddToolStripMenuItem.Text = "gameadd";
+            this.gameaddToolStripMenuItem.Click += new System.EventHandler(this.gameaddToolStripMenuItem_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(661, 620);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
@@ -311,10 +374,12 @@
             this.Controls.Add(this.game_input);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.label1);
+            this.HelpButton = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(676, 659);
             this.Name = "Main";
-            this.Text = "Game Save Swapper";
+            this.Text = "Profiles - Game Save Swapper";
             this.Load += new System.EventHandler(this.Setup_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -355,5 +420,9 @@
         private System.Windows.Forms.ToolStripMenuItem openProfileDirectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.ToolStripMenuItem openGameDirectoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gameaddToolStripMenuItem;
     }
 }

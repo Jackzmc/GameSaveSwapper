@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
@@ -33,9 +34,9 @@
             this.checkBox1.Enabled = false;
             this.checkBox1.Location = new System.Drawing.Point(26, 22);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(198, 17);
+            this.checkBox1.Size = new System.Drawing.Size(193, 17);
             this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Enable Analystics (Not Implemented)";
+            this.checkBox1.Text = "Enable Analytics (Not Implemented)";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // checkBox2
@@ -58,6 +59,10 @@
             this.ClientSize = new System.Drawing.Size(452, 91);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Settings";
             this.Text = "Settings";
             this.ResumeLayout(false);

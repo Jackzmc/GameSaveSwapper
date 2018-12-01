@@ -28,12 +28,20 @@ namespace GameSaveSwapper {
         }
 
         private void RenameForm_Closing(object sender, FormClosingEventArgs e) {
-            this.DialogResult = DialogResult.OK;
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
         private void button1_Click(object sender, EventArgs e) {
             this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e) {
+            }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
     }
